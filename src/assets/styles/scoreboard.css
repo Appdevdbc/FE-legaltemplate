@@ -1,0 +1,178 @@
+.scoreboard-card {
+  position: relative;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.scoreboard-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-color: var(--gradient-start);
+}
+
+.scoreboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.scoreboard-bg-pattern {
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, var(--gradient-start) 0%, transparent 70%);
+  opacity: 0.03;
+  animation: rotate 20s linear infinite;
+}
+
+.scoreboard-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.scoreboard-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  box-shadow: 0 8px 16px -4px var(--gradient-start);
+  transition: all 0.3s ease;
+}
+
+.scoreboard-card:hover .scoreboard-icon-wrapper {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 24px -4px var(--gradient-start);
+}
+
+.scoreboard-icon {
+  font-size: 28px;
+  color: white;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.rotating {
+  animation: spin 3s linear infinite;
+}
+
+.pulsing {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.scoreboard-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
+}
+
+.scoreboard-card:hover .scoreboard-number {
+  transform: scale(1.1);
+}
+
+.scoreboard-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.scoreboard-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.scoreboard-progress-fill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  border-radius: 9999px;
+  animation: progressFill 1.5s ease-out;
+  box-shadow: 0 0 8px var(--gradient-start);
+}
+
+@keyframes progressFill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.scoreboard-yellow {
+  --gradient-start: #f59e0b;
+  --gradient-end: #eab308;
+}
+
+.scoreboard-blue {
+  --gradient-start: #3b82f6;
+  --gradient-end: #06b6d4;
+}
+
+.scoreboard-green {
+  --gradient-start: #10b981;
+  --gradient-end: #22c55e;
+}
+
+.scoreboard-purple {
+  --gradient-start: #8b5cf6;
+  --gradient-end: #a855f7;
+}
+
+.scoreboard-red {
+  --gradient-start: #ef4444;
+  --gradient-end: #f97316;
+}
+
+.scoreboard-gray {
+  --gradient-start: #6b7280;
+  --gradient-end: #9ca3af;
+}
+
+.scoreboard-indigo {
+  --gradient-start: #6366f1;
+  --gradient-end: #818cf8;
+}

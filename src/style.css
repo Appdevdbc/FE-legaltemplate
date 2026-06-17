@@ -1,0 +1,254 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.waves {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  display: flex;
+  z-index: 0 !important;
+}
+
+.login-page {
+  z-index: 99 !important;
+}
+
+.apexcharts-xaxis-label {
+  color: white !important;
+}
+
+.img-logo {
+  width: 100px !important;
+}
+
+.img-logo1 {
+  width: 100px !important;
+}
+
+.border-gradient {
+  border: 10px solid;
+  border-image-slice: 1;
+  border-width: 5px;
+  border-image-source: linear-gradient(to left, #ffbf17, #2e495e);
+}
+
+/* Start Pagination */
+.b-pagination-outer {
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#border-pagination {
+  padding: 0;
+  text-align: center
+}
+#border-pagination li {
+  display: inline;
+
+}
+#border-pagination li span {
+  display: block;
+  text-decoration: none;
+  color: #000;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  float: left;
+  cursor: pointer;
+}
+
+#border-pagination li span {
+  -webkit-transition: background-color 0.4s;
+  transition: background-color 0.4s
+}
+#border-pagination li span.page-active {
+  background-color: #47c0d6;
+  color: #fff;
+}
+#border-pagination li span:hover:not(.active) {
+  background: #ddd;
+}
+/* End Pagination */
+
+/* Start Custom Toast */
+/* Start Success */
+.custom-toast {
+  background: #E7F6F2 !important;
+  color: #2B6B62 !important;
+  font-size: 0.875rem;
+  border-radius: 8px !important;
+}
+
+.custom-toast .q-notification__message {
+  color: #2B6B62 !important;
+}
+
+.custom-toast .q-notification__caption {
+  color: #2B6B62 !important;
+  font-weight: 500;
+}
+
+.custom-toast .q-notification__icon {
+  color: #2B6B62 !important;
+}
+/* End Success */
+/* Start Failed */
+.error-toast {
+  background: #FFEBEE !important;
+  color: #D32F2F !important;
+  font-size: 0.875rem;
+  border-radius: 8px !important;
+}
+
+.error-toast .q-notification__message {
+  color: #D32F2F !important;
+}
+
+.error-toast .q-notification__caption {
+  color: #D32F2F !important;
+  font-weight: 500;
+}
+
+.error-toast .q-notification__icon {
+  color: #D32F2F !important;
+}
+/* End Failed */
+/* End Custom Toast */
+
+/* Custom Button */
+.add-button {
+  background: #34d399; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0px 20px;
+  font-size: 13px;
+  transition: background 1s ease;
+  box-shadow: none;
+}
+
+.add-button:hover {
+  background: #6ee7b7; 
+}
+
+.cancel-button {
+  background: #f43f5e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0px 20px;
+  font-size: 13px;
+  transition: background 1s ease;
+  box-shadow: none;
+}
+
+.cancel-button:hover {
+  background: #fb7185;
+}
+
+.info-button {
+  background: #22d3ee;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 13px;
+  transition: background .5s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.file-uploads{
+  cursor: pointer;
+}
+
+.file-uploads:hover .info-button {
+  background: #67e8f9;
+}
+
+.info-button:hover {
+  background: #67e8f9;
+}
+
+.secondary-button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 13px;
+  transition: background .5s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #4185c8;
+}
+
+.dark-button {
+  background: #09090b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 13px;
+  transition: background .5s ease;
+  box-shadow: none;
+  cursor: pointer;
+} 
+
+.dark-button:hover {
+  background: #3f3f46;
+}
+
+.primary-button {
+  background: #38bdf8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 13px;
+  transition: background 1s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: #7dd3fc;
+}
+
+.light-button {
+  background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+  color: gray;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 20px;
+  font-size: 13px;
+  transition: background 1s ease;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.light-button:hover {
+  background: linear-gradient(45deg, #fff, #e9ecef);
+}
+
+.q-input input[type="number"] {
+  -moz-appearance: textfield; 
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.q-input input[type="number"]::-webkit-inner-spin-button,
+.q-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.text-right {
+  text-align: right !important;
+}

@@ -1,0 +1,16 @@
+@keyframes tw-avatarCycle {
+  0%   { color: #FFFFFF; }  
+  25%  { color: #F5F5DC }   
+  50%  { color: #DDDDDD; }  
+  75%  { color: #FFFFFF; }  
+  100% { color: #F5F5DC; }
+}
+
+.tw-color-text-avatar {
+  color: rgb(237, 246, 228);
+  text-shadow:
+    -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+      1px 1px 0 #000;
+}

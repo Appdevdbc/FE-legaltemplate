@@ -1,0 +1,250 @@
+/* Menu Styles */
+.modern-menu-list {
+  overflow-x: hidden;
+  
+  .menu-item {
+    border-radius: 12px;
+    margin: 1px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 5px 14px;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+    border-bottom: 2px solid transparent;
+    
+    :deep(.q-item__section--avatar) {
+      min-width: 32px;
+      padding-right: 8px;
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    &:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.05));
+      transform: translateX(8px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+      
+      &::before {
+        left: 100%;
+      }
+      
+      .menu-icon {
+        transform: scale(1.1);
+        color: #3b82f6;
+      }
+    }
+  }
+  
+  .menu-icon-section {
+    min-width: 32px;
+    padding-right: 8px;
+  }
+  
+  .menu-icon {
+    font-size: 1.2rem;
+    color: white;
+    transition: all 0.3s ease;
+    padding: 4px;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .menu-text {
+    font-weight: 700;
+    color: #1f2937;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
+.menu-expansion {
+  border-radius: 12px;
+  margin: 1px 0;
+  background: rgba(248, 250, 252, 0.5);
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  border-bottom: 2px solid transparent;
+  
+  .expansion-header {
+    padding: 5px 14px;
+    border-radius: 12px;
+    transition: all 0.4s ease;
+    min-height: 0;
+    
+    :deep(.q-item__section--avatar) {
+      min-width: 32px;
+      padding-right: 8px;
+    }
+    
+    &:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.05));
+      transform: translateX(4px);
+      
+      .menu-icon {
+        transform: scale(1.1);
+        color: #3b82f6;
+      }
+    }
+  }
+}
+
+.menu-child-item {
+  border-radius: 8px;
+  margin: 0;
+  margin-left: 20px;
+  padding: 3px 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 0;
+  border-bottom: 2px solid transparent;
+  
+  :deep(.q-item__section--avatar) {
+    min-width: 26px;
+    padding-right: 6px;
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    border-radius: 2px;
+    transition: height 0.3s ease;
+  }
+  
+  &:hover {
+    background: rgba(59, 130, 246, 0.06);
+    transform: translateX(8px);
+    
+    &::before {
+      height: 60%;
+    }
+    
+    .child-icon {
+      color: #3b82f6;
+      transform: scale(1.1);
+    }
+  }
+  
+  &.menu-child-active {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4);
+    color: white;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    
+    &::before {
+      height: 80%;
+      background: white;
+    }
+    
+    .child-icon, .child-text {
+      color: white;
+    }
+  }
+}
+
+.child-icon-section {
+  min-width: 26px;
+  padding-right: 6px;
+}
+
+.child-icon {
+  font-size: 0.95rem;
+  color: white;
+  transition: all 0.3s ease;
+  padding: 3px;
+  border-radius: 50%;
+  width: 19px;
+  height: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.child-text {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+// Domain-specific border colors
+.menu-item-domain-100, .menu-item-domain-110 {
+  border-bottom-color: rgba(0, 178, 227, 0.5) !important;
+}
+
+.menu-item-domain-200, .menu-item-domain-210 {
+  border-bottom-color: rgba(35, 31, 32, 0.5) !important;
+}
+
+.menu-item-domain-800, .menu-item-domain-130, .menu-item-domain-700 {
+  border-bottom-color: rgba(238, 64, 52, 0.5) !important;
+}
+
+.menu-item-domain-120 {
+  border-bottom-color: rgba(239, 65, 35, 0.5) !important;
+}
+
+.menu-item-domain-300, .menu-item-domain-320 {
+  border-bottom-color: rgba(168, 71, 154, 0.5) !important;
+}
+
+.menu-expansion-domain-100, .menu-expansion-domain-110 {
+  border-bottom-color: rgba(0, 178, 227, 0.5) !important;
+}
+
+.menu-expansion-domain-200, .menu-expansion-domain-210 {
+  border-bottom-color: rgba(35, 31, 32, 0.5) !important;
+}
+
+.menu-expansion-domain-800, .menu-expansion-domain-130, .menu-expansion-domain-700 {
+  border-bottom-color: rgba(238, 64, 52, 0.5) !important;
+}
+
+.menu-expansion-domain-120 {
+  border-bottom-color: rgba(239, 65, 35, 0.5) !important;
+}
+
+.menu-expansion-domain-300, .menu-expansion-domain-320 {
+  border-bottom-color: rgba(168, 71, 154, 0.5) !important;
+}
+
+.menu-child-domain-100, .menu-child-domain-110 {
+  border-bottom-color: rgba(0, 178, 227, 0.3) !important;
+}
+
+.menu-child-domain-200, .menu-child-domain-210 {
+  border-bottom-color: rgba(35, 31, 32, 0.3) !important;
+}
+
+.menu-child-domain-800, .menu-child-domain-130, .menu-child-domain-700 {
+  border-bottom-color: rgba(238, 64, 52, 0.3) !important;
+}
+
+.menu-child-domain-120 {
+  border-bottom-color: rgba(239, 65, 35, 0.3) !important;
+}
+
+.menu-child-domain-300, .menu-child-domain-320 {
+  border-bottom-color: rgba(168, 71, 154, 0.3) !important;
+}
