@@ -138,14 +138,14 @@
         </div>
       </div>
       <div class="tw-p-6 tw-border-t tw-bg-white tw-space-y-3">
-        <q-btn 
+        <!-- <q-btn 
           unelevated 
           label="Notifications" 
           icon="notifications" 
           color="blue-6" 
           @click="notifDialog = true" 
           class="tw-w-full tw-font-semibold" 
-        />
+        /> -->
         <q-btn 
           unelevated 
           label="Logout" 

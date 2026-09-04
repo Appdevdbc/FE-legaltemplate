@@ -781,11 +781,11 @@ const logoutUser = async () => {
       window.localStorage.clear();
       window.sessionStorage.clear();
       let environment = `${import.meta.env.VITE_ENV}`;
-      if (environment == 'LOCAL'){
+      // if (environment == 'LOCAL'){
           router.push("/login");
-      }else{
-          window.location.replace(`${import.meta.env.VITE_APPDBC}`);
-      }
+      // }else{
+      //     window.location.replace(`${import.meta.env.VITE_APPDBC}`);
+      // }
       //router.push("https://app.dbc.co.id");
       //router.push("/");
     }
@@ -815,11 +815,11 @@ const logoutSystem = async () => {
       window.localStorage.clear();
       window.sessionStorage.clear();
       let environment = `${import.meta.env.VITE_ENV}`;
-      if (environment == 'LOCAL'){
+      // if (environment == 'LOCAL'){
           router.push("/login");
-      }else{
-           window.location.replace(`${import.meta.env.VITE_APPDBC}`);
-      }
+      // }else{
+      //      window.location.replace(`${import.meta.env.VITE_APPDBC}`);
+      // }
       //router.push("https://app.dbc.co.id");
       //router.push("/");
     }
