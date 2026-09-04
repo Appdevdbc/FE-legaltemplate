@@ -180,9 +180,9 @@ const onSubmit = async (values, actions) => {
   try {
     const environment =`${import.meta.env.VITE_ENV}`;
     window.localStorage.clear();
-     if (environment != 'LOCAL'){
+    /*if (environment != 'LOCAL'){
         window.location.replace(`${import.meta.env.VITE_APPDBC}`);
-    } 
+    }*/
     $q.loading.show();
     const res = await axios.post(`${import.meta.env.VITE_API}login`, tmpData);
     actions.resetForm();
