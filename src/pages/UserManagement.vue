@@ -70,6 +70,13 @@
               {{ (pagination.page - 1) * pagination.rowsPerPage + props.rowIndex + 1 }}
             </q-td>
           </template>
+        
+          <template v-slot:body-cell-employee_stat="props">
+              <q-td :props="props">
+                  <q-badge v-if="props.value == 'ACTIVE'" color="green-6" class="q-py-xs" label="Aktif" />
+                  <q-badge v-if="props.value == 'INACTIVE'" color="red-8" class="q-py-xs" label="Tidak Aktif" />
+              </q-td>
+          </template>
 
           <template v-slot:body-cell-aksi="props">
             <q-td :props="props">
@@ -98,32 +105,21 @@
 
         <q-card-section style="max-height: 70vh" class="scroll tw-p-6">
           <q-banner rounded class="tw-bg-red-50 tw-border-l-4 tw-border-red-500 q-mb-md">
-            <template v-slot:avatar><q-icon name="info" color="red" /></template>
-            <span class="tw-text-red-700 tw-font-medium">Field bertanda (*) wajib diisi</span>
+              <template v-slot:avatar>
+                  <q-icon name="info" color="red" size="32px" />
+              </template>
+              <span class="tw-text-red-700 tw-font-medium">Field bertanda bintang (*) wajib diisi</span>
           </q-banner>
 
-          <div class="q-gutter-md">
-            <!-- Role -->
-            <q-select
-              v-model="addForm.role"
-              outlined
-              label="Role *"
-              :options="filteredRolesAdd"
-              emit-value
-              map-options
-              use-input
-              input-debounce="300"
-              @filter="filterRolesAdd"
-              @update:model-value="onAddRoleChange"
-              :rules="[val => !!val || 'Role wajib dipilih']"
-            >
-              <template v-slot:prepend><q-icon name="security" color="blue-6" /></template>
-            </q-select>
+                   <div class="row q-col-gutter-md">
+                        <div class="col-12">
+
 
             <!-- User NIK (searchable dropdown - always shown) -->
             <q-select
               v-model="addForm.nik"
               outlined
+              dense
               label="User NIK *"
               :options="filteredEmployees"
               option-value="employee_id"
@@ -134,7 +130,6 @@
               input-debounce="300"
               @filter="filterEmployees"
               @update:model-value="onEmployeeSelected"
-              :rules="[val => !!val || 'NIK wajib dipilih']"
             >
               <template v-slot:prepend><q-icon name="badge" color="blue-6" /></template>
               <template v-slot:option="scope">
@@ -151,59 +146,103 @@
                 </q-item>
               </template>
             </q-select>
+                        </div>
+
+            <!-- Nama (readonly) -->
+            <div class="col-12">
+            <q-input
+              v-model="addForm.divisi"
+              outlined
+              dense
+              label="Divisi"
+              readonly
+              class="tw-bg-gray-50"
+            >
+              <template v-slot:prepend><q-icon name="apartment" color="blue-6" /></template>
+            </q-input>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12">
+            <q-input
+              v-model="addForm.email"
+              outlined
+              dense
+              label="Email *"
+              type="email"
+              placeholder="Input Email"
+            >
+              <template v-slot:prepend><q-icon name="email" color="blue-6" /></template>
+            </q-input>
+            </div>
+
+
 
             <!-- Username (shown for non-employee role = 3 / Admin BU) -->
-            <q-input
-              v-if="addForm.role === 3"
+            <!-- <div class="col-12" v-if="addForm.role === 3">
+            <q-input              
               v-model="addForm.username"
               outlined
+              dense
               label="Username *"
               placeholder="Input Username"
-              :rules="[val => !!val || 'Username wajib diisi']"
             >
               <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
             </q-input>
+            </div> -->
 
             <!-- Nama Akun (shown for non-employee role = 3) -->
-            <q-input
-              v-if="addForm.role === 3"
+            <!-- <div class="col-12" v-if="addForm.role === 3">
+            <q-input              
               v-model="addForm.nama"
               outlined
+              dense
               label="Nama Akun *"
               placeholder="Input Nama Akun"
-              :rules="[val => !!val || 'Nama wajib diisi']"
             >
               <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
             </q-input>
+            </div> -->
 
             <!-- Business Unit Single (always shown, for roles != 6/Chief) -->
+            <div class="col-12">
             <q-select
-              v-if="addForm.role !== 6"
               v-model="addForm.bu"
               outlined
-              label="Business Unit *"
+              dense
+              label="Bisnis Unit *"
               :options="filteredBuAdd"
               option-value="bu_id"
-              option-label="bu_name"
+              option-label="bu_id"
               emit-value
               map-options
               use-input
               input-debounce="300"
               @filter="filterBuAdd"
-              :rules="[val => !!val || 'Business Unit wajib dipilih']"
             >
               <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
+              <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>
+                    <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                    <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
             </q-select>
+            <!-- </div> -->
 
             <!-- Business Unit Multiple (for Chief / role 6) -->
-            <q-select
+            <!-- <div class="col-12"> -->
+            <!-- <q-select
               v-if="addForm.role === 6"
               v-model="addForm.buMultiple"
               outlined
-              label="Business Unit * (Multiple)"
+              dense
+              label="Bisnis Unit * (Multiple)"
               :options="filteredBuAdd"
               option-value="bu_id"
-              option-label="bu_name"
+              option-label="bu_id"
               emit-value
               map-options
               multiple
@@ -211,32 +250,49 @@
               use-input
               input-debounce="300"
               @filter="filterBuAdd"
-              :rules="[val => val && val.length > 0 || 'Business Unit wajib dipilih']"
             >
               <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
-            </q-select>
+              <template v-slot:option="scope">
+                <q-item v-bind="scope.itemProps">
+                  <q-item-section>
+                    <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                    <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select> -->
+            </div>
 
-            <!-- Email -->
-            <q-input
-              v-model="addForm.email"
+                        <!-- Role -->
+                        <div class="col-12">
+            <q-select
+              v-model="addForm.role"
               outlined
-              label="Email *"
-              type="email"
-              placeholder="Input Email"
-              :rules="[val => !!val || 'Email wajib diisi']"
+              dense
+              label="Role *"
+              :options="filteredRolesAdd"
+              emit-value
+              map-options
+              use-input
+              input-debounce="300"
+              @filter="filterRolesAdd"
             >
-              <template v-slot:prepend><q-icon name="email" color="blue-6" /></template>
-            </q-input>
+              <template v-slot:prepend><q-icon name="security" color="blue-6" /></template>
+            </q-select>
+            </div>
 
             <!-- Kontak -->
+            <div class="col-12">
             <q-input
               v-model="addForm.contact"
               outlined
+              dense
               label="Kontak"
               placeholder="Input Kontak"
             >
               <template v-slot:prepend><q-icon name="phone" color="blue-6" /></template>
             </q-input>
+            </div>
           </div>
         </q-card-section>
 
@@ -259,34 +315,128 @@
         <q-separator />
 
         <q-card-section style="max-height: 70vh" class="scroll tw-p-6">
-          <div class="q-gutter-md">
+          <q-banner rounded class="tw-bg-red-50 tw-border-l-4 tw-border-red-500 q-mb-md">
+              <template v-slot:avatar>
+                  <q-icon name="info" color="red" size="32px" />
+              </template>
+              <span class="tw-text-red-700 tw-font-medium">Field bertanda bintang (*) wajib diisi</span>
+          </q-banner>
+
+                   <div class="row q-col-gutter-md">
+                        <div class="col-12">
             <!-- NIK (readonly) -->
             <q-input
               v-model="editForm.nik"
               outlined
+              dense
               label="NIK"
               readonly
               class="tw-bg-gray-50"
             >
               <template v-slot:prepend><q-icon name="badge" color="blue-6" /></template>
             </q-input>
+            </div>
 
             <!-- Nama (readonly) -->
+            <div class="col-12">
             <q-input
               v-model="editForm.nama"
               outlined
+              dense
               label="Nama"
               readonly
               class="tw-bg-gray-50"
             >
               <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
             </q-input>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12">
+            <q-input
+              v-model="editForm.email"
+              outlined
+              dense
+              label="Email *"
+              type="email"
+              placeholder="Input Email"
+            >
+              <template v-slot:prepend><q-icon name="email" color="blue-6" /></template>
+            </q-input>
+            </div>
+
+
+
+            <!-- Business Unit Single (for roles != 6) -->
+            <div class="col-12">
+              <q-select
+                v-model="editForm.bu"
+                outlined
+                dense
+                label="Bisnis Unit *"
+                :options="filteredBuEdit"
+                option-value="bu_id"
+                option-label="bu_id"
+                emit-value
+                map-options
+                use-input
+                input-debounce="300"
+                @filter="filterBuEdit"
+              >
+                <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>
+                      <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                      <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <div class="tw-text-sm tw-mt-1 tw-text-gray-600">
+                <b>Current Business Unit</b> : {{ editForm.currentBuName }}
+              </div>
+            </div>
+
+            <!-- Business Unit Multiple (for Chief / role 6) -->
+            <!-- <div class="col-12" v-if="editForm.role === 6">
+              <q-select
+                v-model="editForm.buMultiple"
+                outlined
+                dense
+                label="Bisnis Unit * (Multiple)"
+                :options="filteredBuEdit"
+                option-value="bu_id"
+                option-label="bu_id"
+                emit-value
+                map-options
+                multiple
+                use-chips
+                use-input
+                input-debounce="300"
+                @filter="filterBuEdit"
+              >
+                <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
+                <template v-slot:option="scope">
+                  <q-item v-bind="scope.itemProps">
+                    <q-item-section>
+                      <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                      <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </template>
+              </q-select>
+              <div class="tw-text-sm tw-mt-1 tw-text-gray-600">
+                <b>Current Business Unit</b> : {{ editForm.currentBuName }}
+              </div>
+            </div> -->
 
             <!-- Role with current info -->
-            <div>
+            <div class="col-12">
               <q-select
                 v-model="editForm.role"
                 outlined
+                dense
                 label="Role *"
                 :options="filteredRolesEdit"
                 emit-value
@@ -295,79 +445,21 @@
                 input-debounce="300"
                 @filter="filterRolesEdit"
                 @update:model-value="onEditRoleChange"
-                :rules="[val => !!val || 'Role wajib dipilih']"
               >
                 <template v-slot:prepend><q-icon name="security" color="blue-6" /></template>
               </q-select>
               <div class="tw-text-sm tw-mt-1 tw-text-gray-600">
-                <b>Current Type</b>: {{ editForm.currentRoleName }}
+                <b>Current Type</b> : {{ editForm.currentRoleName }}
               </div>
             </div>
-
-            <!-- Business Unit Single (for roles != 6) -->
-            <div v-if="editForm.role !== 6">
-              <q-select
-                v-model="editForm.bu"
-                outlined
-                label="Business Unit *"
-                :options="filteredBuEdit"
-                option-value="bu_id"
-                option-label="bu_name"
-                emit-value
-                map-options
-                use-input
-                input-debounce="300"
-                @filter="filterBuEdit"
-                :rules="[val => !!val || 'Business Unit wajib dipilih']"
-              >
-                <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
-              </q-select>
-              <div class="tw-text-sm tw-mt-1 tw-text-gray-600">
-                <b>Current Business Unit</b>: {{ editForm.currentBuName }}
-              </div>
             </div>
-
-            <!-- Business Unit Multiple (for Chief / role 6) -->
-            <div v-if="editForm.role === 6">
-              <q-select
-                v-model="editForm.buMultiple"
-                outlined
-                label="Business Unit * (Multiple)"
-                :options="filteredBuEdit"
-                option-value="bu_id"
-                option-label="bu_name"
-                emit-value
-                map-options
-                multiple
-                use-chips
-                use-input
-                input-debounce="300"
-                @filter="filterBuEdit"
-                :rules="[val => val && val.length > 0 || 'Business Unit wajib dipilih']"
-              >
-                <template v-slot:prepend><q-icon name="business" color="blue-6" /></template>
-              </q-select>
-              <div class="tw-text-sm tw-mt-1 tw-text-gray-600">
-                <b>Current Business Unit</b>: {{ editForm.currentBuName }}
-              </div>
-            </div>
-
-            <!-- Email -->
-            <q-input
-              v-model="editForm.email"
-              outlined
-              label="Email *"
-              type="email"
-              placeholder="Input Email"
-              :rules="[val => !!val || 'Email wajib diisi']"
-            >
-              <template v-slot:prepend><q-icon name="email" color="blue-6" /></template>
-            </q-input>
 
             <!-- Kontak -->
+            <div class="col-12">
             <q-input
               v-model="editForm.contact"
               outlined
+              dense
               label="Kontak"
               placeholder="Input Kontak"
             >
@@ -386,10 +478,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted, reactive } from "vue";
 import { useQuasar } from "quasar";
 import axios from "axios";
-import { domain } from "../utils.js";
+import { domain, empid, spinnerBall } from "../utils.js";
+import * as yup from "yup";
+import { useRouter, useRoute } from "vue-router";
+import { useNotify } from "../composables/useNotify";
+
+const router = useRouter();
+const { success, error } = useNotify();
+const modulName = 'Role';
 
 const $q = useQuasar();
 const users = ref([]);
@@ -402,14 +501,16 @@ const dialogEdit = ref(false);
 const pagination = ref({ sortBy: "account_name", descending: false, page: 1, rowsPerPage: 10 });
 
 const columns = [
-  { name: "no", label: "No", field: "no", align: "center", sortable: false, style: "width: 60px" },
-  { name: "account_bu_name", label: "Business Unit", field: "account_bu_name", align: "left", sortable: true },
-  { name: "account_name", label: "Nama", field: "account_name", align: "left", sortable: true },
+  { name: "no", label: "No", field: "no", align: "center", sortable: false },
   { name: "account_nik", label: "NIK", field: "account_nik", align: "left", sortable: true },
+  { name: "account_name", label: "Nama", field: "account_name", align: "left", sortable: true },
+  // { name: "account_bu_name", label: "Business Unit", field: "account_bu_name", align: "left", sortable: true },
+  { name: "account_bu", label: "Bisnis Unit", field: "account_bu", align: "left", sortable: true },
   { name: "account_div", label: "Divisi", field: "account_div", align: "left", sortable: true },
   { name: "role_name", label: "Role", field: "role_name", align: "left", sortable: true },
   { name: "account_email", label: "Email", field: "account_email", align: "left", sortable: true },
-  { name: "account_contact", label: "Contact", field: "account_contact", align: "left", sortable: true },
+  { name: "account_contact", label: "Kontak", field: "account_contact", align: "left", sortable: true },
+  { name: "employee_stat", label: "Status", field: "employee_stat", align: "left", sortable: true },
   { name: "aksi", label: "Aksi", field: "aksi", align: "center", sortable: false },
 ];
 
@@ -429,6 +530,7 @@ const addForm = ref({
   nik: null,
   username: "",
   nama: "",
+  divisi: "",
   bu: null,
   buMultiple: [],
   email: "",
@@ -439,6 +541,7 @@ const addForm = ref({
 const editForm = ref({
   nik: "",
   nama: "",
+  divisi: "",
   role: null,
   bu: null,
   buMultiple: [],
@@ -471,7 +574,11 @@ const loadUsers = async () => {
 const loadRoles = async () => {
   try {
     const res = await axios.get(`${import.meta.env.VITE_API}user-management/roles`);
-    roleOptions.value = res.data.map((r) => ({ label: r.role_name, value: r.role_id }));
+    roleOptions.value = res.data.map((r) => ({ label: r.role_name, value: parseInt(r.id) }));
+    // Pre-fill filtered lists so q-select can resolve the label via map-options
+    // even before the user opens/types in the dropdown.
+    filteredRolesAdd.value = roleOptions.value;
+    filteredRolesEdit.value = roleOptions.value;
   } catch (error) {
     console.log("Failed to load roles:", error.message);
   }
@@ -481,6 +588,9 @@ const loadBusinessUnits = async () => {
   try {
     const res = await axios.get(`${import.meta.env.VITE_API}user-management/business-units`);
     buOptions.value = res.data;
+    // buOptions.value = res.data.map((r) => ({ label: r.bu_name, value: r.bu_id }));
+    // filterBuAdd.value = buOptions.value;
+    // filterBuEdit.value = buOptions.value;
   } catch (error) {
     console.log("Failed to load BU:", error.message);
   }
@@ -569,6 +679,8 @@ const onEmployeeSelected = async (nik) => {
     const res = await axios.get(`${import.meta.env.VITE_API}user-management/employee-detail`, {
       params: { nik },
     });
+    addForm.value.nama = res.data.employee_name || "";
+    addForm.value.divisi = res.data.div_nama || "";
     addForm.value.email = res.data.employee_email || "";
   } catch (error) {
     console.log("Failed to get employee detail:", error.message);
@@ -577,18 +689,19 @@ const onEmployeeSelected = async (nik) => {
 
 const onAddRoleChange = () => {
   // Reset fields when role changes
-  addForm.value.nik = null;
-  addForm.value.username = "";
-  addForm.value.nama = "";
-  addForm.value.email = "";
-  addForm.value.bu = null;
-  addForm.value.buMultiple = [];
+  // addForm.value.nik = null;
+  // addForm.value.username = "";
+  // addForm.value.nama = "";
+  // addForm.value.divisi = "";
+  // addForm.value.email = "";
+  // addForm.value.bu = null;
+  // addForm.value.buMultiple = [];
 };
 
 const onEditRoleChange = () => {
   // Reset BU fields when role changes in edit
-  editForm.value.bu = null;
-  editForm.value.buMultiple = [];
+  // editForm.value.bu = null;
+  // editForm.value.buMultiple = [];
 };
 
 const openAddDialog = () => {
@@ -610,6 +723,10 @@ const openEditDialog = (row) => {
   const buValue = row.account_bu || "";
   const isMultipleBU = buValue.includes(",");
 
+  // Ensure the role select has its full option list so map-options can
+  // resolve the selected id into its label immediately when the dialog opens.
+  filteredRolesEdit.value = roleOptions.value;
+
   editForm.value = {
     nik: row.account_nik,
     nama: row.account_name || row.employee_name || "",
@@ -619,7 +736,8 @@ const openEditDialog = (row) => {
     email: row.account_email || "",
     contact: row.account_contact || "",
     currentRoleName: row.role_name || "",
-    currentBuName: row.bu_name_resolved || row.bu_name || getBuNameFromId(buValue),
+    // currentBuName: row.bu_name_resolved || row.bu_name || getBuNameFromId(buValue),
+    currentBuName: row.account_bu || "",
     encryptedNik: row.encrypted_nik,
   };
   dialogEdit.value = true;
@@ -641,16 +759,31 @@ const getBuNameFromId = (buId) => {
 };
 
 const saveAddUser = async () => {
+
+  if (addForm.value.role !== 3 && !addForm.value.nik) {
+    $q.notify({ type: "warning", message: "User NIK wajib dipilih", position: "bottom" });
+    return;
+  }
+
+  // Validations
+  if (!addForm.value.email) {
+    $q.notify({ type: "warning", message: "Email wajib diisi", position: "bottom" });
+    return;
+  }
+
+  // Validations
+  if (!addForm.value.bu) {
+    $q.notify({ type: "warning", message: "Bisnis Unit wajib dipilih", position: "bottom" });
+    return;
+  }
+
   // Validations
   if (!addForm.value.role) {
     $q.notify({ type: "warning", message: "Role wajib dipilih", position: "bottom" });
     return;
   }
 
-  if (addForm.value.role !== 3 && !addForm.value.nik) {
-    $q.notify({ type: "warning", message: "NIK wajib dipilih", position: "bottom" });
-    return;
-  }
+
 
   if (addForm.value.role === 3 && (!addForm.value.username || !addForm.value.nama)) {
     $q.notify({ type: "warning", message: "Username dan Nama wajib diisi", position: "bottom" });
@@ -680,6 +813,7 @@ const saveAddUser = async () => {
       bu: buValue,
       email: addForm.value.email,
       contact: addForm.value.contact,
+      creator: empid(),
     });
     $q.notify({ type: "positive", message: "User berhasil ditambahkan", position: "bottom" });
     dialogAdd.value = false;
@@ -693,13 +827,21 @@ const saveAddUser = async () => {
 };
 
 const saveEditUser = async () => {
-  if (!editForm.value.role) {
-    $q.notify({ type: "warning", message: "Role wajib dipilih", position: "bottom" });
-    return;
-  }
+
 
   if (!editForm.value.email) {
     $q.notify({ type: "warning", message: "Email wajib diisi", position: "bottom" });
+    return;
+  }
+
+  // Validations
+  if (!editForm.value.bu) {
+    $q.notify({ type: "warning", message: "Bisnis Unit wajib dipilih", position: "bottom" });
+    return;
+  }
+
+  if (!editForm.value.role) {
+    $q.notify({ type: "warning", message: "Role wajib dipilih", position: "bottom" });
     return;
   }
 
@@ -720,6 +862,7 @@ const saveEditUser = async () => {
       bu: buValue,
       email: editForm.value.email,
       contact: editForm.value.contact,
+      creator: empid(),
     });
     $q.notify({ type: "positive", message: "User berhasil diperbarui", position: "bottom" });
     dialogEdit.value = false;

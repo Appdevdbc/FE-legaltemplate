@@ -16,6 +16,7 @@ import "./assets/custom-q-date.scss";
 import "./assets/styles/custom-loading.css";
 
 axios.defaults.baseURL = import.meta.env.VITE_API;
+axios.defaults.withCredentials = true;
 
 // Assumes your root component is App.vue
 // and placed in same folder as main.js

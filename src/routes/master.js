@@ -14,6 +14,10 @@ export default [
         component: () => import("./../pages/MenuManagement.vue"),
       },
       {
+        path: "bu",
+        component: () => import("./../pages/BisnisUnit.vue"),
+      },
+      {
         path: "role",
         component: () => import("./../pages/RoleManagement.vue"),
       },
@@ -106,7 +110,8 @@ export default [
       },
     ],
     beforeEnter: (to, from, next) => {
-      if (!window.localStorage.getItem("token")) {
+      // if (!window.localStorage.getItem("token")) {
+      if (!window.localStorage.getItem("isLoggedIn")) {
         next({
           path: "/login",
         });
