@@ -253,7 +253,7 @@
     <!-- Dialog: Create Folder -->
     <q-dialog v-model="dialogCreateFolder" transition-show="slide-up" transition-hide="slide-down" persistent>
       <q-card class="tw-w-full tw-max-w-lg tw-rounded-2xl">
-        <q-card-section class="tw-bg-blue-600">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
             <q-icon name="create_new_folder" size="24px" /> Buat Folder Baru
           </div>
@@ -349,7 +349,7 @@
         </q-card-section>
         <q-card-actions align="right" class="tw-p-4 tw-bg-slate-50">
           <q-btn label="Batal" color="red-7" push icon="close" v-close-popup class="tw-px-6" />
-          <q-btn label="Simpan" color="blue-6" push icon="check" @click="createFolder" :loading="savingFolder" class="tw-px-6" />
+          <q-btn label="Simpan" color="blue-6" push icon="save" @click="createFolder" :loading="savingFolder" class="tw-px-6" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -357,7 +357,7 @@
     <!-- Dialog: Rename Folder -->
     <q-dialog v-model="dialogRenameFolder" transition-show="slide-up" transition-hide="slide-down">
       <q-card class="tw-w-full tw-max-w-md tw-rounded-2xl">
-        <q-card-section class="tw-bg-orange-600">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
             <q-icon name="edit" size="24px" /> Rename Folder
           </div>
@@ -366,20 +366,20 @@
         <q-card-section class="tw-p-6">
           <q-input v-model="renameFolderName" outlined dense label="Nama Folder Baru" autofocus @keyup.enter="renameFolder"
             :rules="[val => !!val || 'Nama folder wajib diisi']">
-            <template v-slot:prepend><q-icon name="folder" color="orange-7" /></template>
+            <template v-slot:prepend><q-icon name="folder" color="blue-6" /></template>
           </q-input>
         </q-card-section>
         <q-card-actions align="right" class="tw-p-4 tw-bg-slate-50">
           <q-btn label="Batal" color="red-7" push icon="close" v-close-popup class="tw-px-6" />
-          <q-btn label="Simpan" color="orange-7" push icon="save" @click="renameFolder" :loading="savingFolder" class="tw-px-6" />
+          <q-btn label="Simpan" color="blue-6" push icon="save" @click="renameFolder" :loading="savingFolder" class="tw-px-6" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <!-- Dialog: Edit File -->
-    <q-dialog v-model="dialogEditFile" transition-show="slide-up" transition-hide="slide-down" maximized>
+    <q-dialog v-model="dialogEditFile" transition-show="slide-up" transition-hide="slide-down" backdrop-filter="blur(4px)" persistent full-width>
       <q-card class="tw-w-full tw-max-w-5xl tw-mx-auto tw-my-4 tw-rounded-2xl" style="max-height: 95vh;">
-        <q-card-section class="tw-bg-blue-600">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
               <q-icon name="edit_note" size="28px" /> Edit File
@@ -388,31 +388,31 @@
           </div>
         </q-card-section>
         <q-separator />
-        <q-card-section style="max-height: calc(95vh - 140px); overflow-y: auto;" class="tw-p-6">
-          <div class="tw-flex tw-gap-6">
+        <q-card-section style="max-height: 70vh" class="scroll tw-p-6">
+          <div class="row q-col-gutter-md">
             <!-- LEFT: EDIT FILE -->
             <div class="tw-w-1/2 tw-space-y-4">
               <div class="tw-font-bold tw-text-slate-700 tw-text-sm tw-uppercase tw-border-b tw-pb-2 tw-mb-2">Edit File</div>
 
-              <q-input v-model="editForm.content_name" outlined label="File Name *" :rules="[val => !!val || 'Nama file wajib diisi']">
+              <q-input v-model="editForm.content_name" outlined dense label="File Name *" :rules="[val => !!val || 'Nama file wajib diisi']">
                 <template v-slot:prepend><q-icon name="description" color="blue-6" /></template>
               </q-input>
 
-              <q-input :model-value="editForm.folder_name" outlined label="Folder" readonly>
+              <q-input :model-value="editForm.folder_name" outlined dense label="Folder" readonly>
                 <template v-slot:prepend><q-icon name="folder" color="amber-7" /></template>
               </q-input>
 
-              <q-input v-model="editForm.content_keywords" outlined label="Keywords" placeholder="Input Keywords">
+              <q-input v-model="editForm.content_keywords" outlined dense label="Keywords" placeholder="Input Keywords">
                 <template v-slot:prepend><q-icon name="label" color="blue-6" /></template>
               </q-input>
 
-              <q-input v-model="editForm.content_desc" outlined label="Description" placeholder="Input Description">
+              <q-input v-model="editForm.content_desc" outlined dense label="Description" placeholder="Input Description">
                 <template v-slot:prepend><q-icon name="notes" color="blue-6" /></template>
               </q-input>
 
               <div>
                 <q-select v-model="editForm.content_owner" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                  label="PIC Owner" outlined use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                  label="PIC Owner" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                   <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps"><q-item-section><q-item-label>{{ scope.opt.employee_name }}</q-item-label><q-item-label caption>{{ scope.opt.employee_id }} | {{ scope.opt.bu_name }} - {{ scope.opt.div_nama }}</q-item-label></q-item-section></q-item>
@@ -423,7 +423,7 @@
 
               <div>
                 <q-select v-model="editForm.content_keeper" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                  label="PIC Keeper" outlined use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                  label="PIC Keeper" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                   <template v-slot:prepend><q-icon name="person_outline" color="teal-6" /></template>
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps"><q-item-section><q-item-label>{{ scope.opt.employee_name }}</q-item-label><q-item-label caption>{{ scope.opt.employee_id }} | {{ scope.opt.bu_name }} - {{ scope.opt.div_nama }}</q-item-label></q-item-section></q-item>
@@ -433,27 +433,27 @@
               </div>
 
               <div>
-                <q-input :model-value="editKeeperEmail" outlined label="Email Keeper" readonly>
+                <q-input :model-value="editKeeperEmail" outlined dense label="Email Keeper" readonly>
                   <template v-slot:prepend><q-icon name="email" color="grey-6" /></template>
                 </q-input>
                 <div class="tw-text-xs tw-text-slate-500 tw-mt-1"><em>* jika email salah atau kosong, harap diinformasikan ke Admin BU</em></div>
               </div>
 
-              <q-input :model-value="editForm.content_bu" outlined label="Business Unit Mapping" readonly>
+              <q-input :model-value="editForm.content_bu" outlined dense label="Business Unit Mapping" readonly>
                 <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
               </q-input>
 
-              <q-input :model-value="editForm.content_div" outlined label="Division Mapping" readonly>
+              <q-input :model-value="editForm.content_div" outlined dense label="Division Mapping" readonly>
                 <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
               </q-input>
 
-              <q-select v-model="editForm.content_type" outlined label="File Type *"
+              <q-select v-model="editForm.content_type" outlined dense label="File Type *"
                 :options="[{label:'Renewable', value:'renewable'}, {label:'Non-Renewable', value:'non-renewable'}]"
                 emit-value map-options>
                 <template v-slot:prepend><q-icon name="category" color="blue-6" /></template>
               </q-select>
 
-              <q-input v-model="editForm.content_duedate" outlined label="Due Date" type="date"
+              <q-input v-model="editForm.content_duedate" outlined dense label="Due Date" type="date"
                 :disable="editForm.content_type !== 'renewable'">
                 <template v-slot:prepend><q-icon name="event" color="orange-7" /></template>
               </q-input>
@@ -463,20 +463,20 @@
             <div class="tw-w-1/2 tw-space-y-4">
               <div class="tw-font-bold tw-text-slate-700 tw-text-sm tw-uppercase tw-border-b tw-pb-2 tw-mb-2">Renew File</div>
 
-              <q-input v-model="renewForm.name" outlined label="File Name (baru)" placeholder="Tidak boleh sama dengan nama file lama">
+              <q-input v-model="renewForm.name" outlined dense label="File Name (baru)" placeholder="Tidak boleh sama dengan nama file lama">
                 <template v-slot:prepend><q-icon name="description" color="orange-7" /></template>
               </q-input>
               <div class="tw-text-xs tw-text-slate-500 tw-mt-[-12px] tw-mb-2"><em>note: Tidak boleh sama dengan nama file lama</em></div>
 
-              <q-input v-model="renewForm.duedate" outlined label="Due Date (baru) *" type="date">
+              <q-input v-model="renewForm.duedate" outlined dense label="Due Date (baru) *" type="date">
                 <template v-slot:prepend><q-icon name="event" color="orange-7" /></template>
               </q-input>
 
               <div>
-                <q-file v-model="renewForm.file" outlined label="Upload File (baru) *" accept="*/*" max-file-size="10485760">
+                <q-file v-model="renewForm.file" outlined dense label="Upload File (baru) *" accept=".doc,.docx" max-file-size="15728640" counter @rejected="onFileRejected">
                   <template v-slot:prepend><q-icon name="attach_file" color="orange-7" /></template>
                 </q-file>
-                <div class="tw-text-xs tw-text-slate-500 tw-mt-1">Maksimal 10MB</div>
+                <div class="tw-text-xs tw-text-slate-500 tw-mt-1">Extension File : .doc / .docx, Max size : 15MB</div>
               </div>
 
               <q-btn unelevated color="orange-7" label="Renew" icon="autorenew" @click="submitRenewFile" :loading="renewingFile" class="tw-w-full tw-mt-4" />
@@ -486,15 +486,17 @@
         <q-separator />
         <q-card-actions align="right" class="tw-p-4 tw-bg-slate-50">
           <q-btn label="Batal" color="red-7" push icon="close" v-close-popup class="tw-px-6" />
-          <q-btn label="Update" color="blue-6" push icon="save" @click="saveEditFile" :loading="savingFile" class="tw-px-6" />
+          <q-btn label="Simpan" color="blue-6" push icon="save" @click="saveEditFile" :loading="savingFile" class="tw-px-6" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <!-- Dialog: Add File -->
-    <q-dialog v-model="dialogAddFile" transition-show="slide-up" transition-hide="slide-down" maximized>
-      <q-card class="tw-w-full tw-max-w-5xl tw-mx-auto tw-my-4 tw-rounded-2xl" style="max-height: 95vh;">
-        <q-card-section class="tw-bg-green-700">
+    <q-dialog v-model="dialogAddFile" transition-show="slide-up" transition-hide="slide-down" backdrop-filter="blur(4px)" persistent full-width>
+      <q-card class="tw-w-full tw-max-w-3xl tw-rounded-2xl tw-shadow-2xl">
+      <!-- <q-card style="max-width: 100%; width: 1200px"> -->
+      <!-- <q-card style="max-width: 55vw;"> -->
+        <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
               <q-icon name="upload_file" size="28px" /> Add File
@@ -503,33 +505,40 @@
           </div>
         </q-card-section>
         <q-separator />
-        <q-card-section style="max-height: calc(95vh - 140px); overflow-y: auto;" class="tw-p-6">
-          <div class="tw-flex tw-gap-6">
+        <q-card-section style="max-height: 70vh" class="scroll tw-p-6">
+          <!-- <q-banner rounded class="tw-bg-red-50 tw-border-l-4 tw-border-red-500 q-mb-md">
+              <template v-slot:avatar>
+                  <q-icon name="info" color="red" size="32px" />
+              </template>
+              <span class="tw-text-red-700 tw-font-medium">Field bertanda bintang (*) wajib diisi</span>
+          </q-banner> -->
+          
+          <div class="row q-col-gutter-md">
             <!-- LEFT COLUMN (like legacy span6) -->
             <div class="tw-w-1/2 tw-space-y-4">
               <!-- File Name -->
-              <q-input v-model="addFileForm.name" outlined label="File Name *" :rules="[val => !!val || 'Nama file wajib diisi']">
+              <q-input v-model="addFileForm.name" outlined dense label="File Name *">
                 <template v-slot:prepend><q-icon name="description" color="blue-6" /></template>
               </q-input>
 
               <!-- Folder (readonly) -->
-              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_name : ''" outlined label="Folder" readonly>
+              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_name : ''" outlined dense label="Folder" readonly>
                 <template v-slot:prepend><q-icon name="folder" color="amber-7" /></template>
               </q-input>
 
               <!-- Keywords -->
-              <q-input v-model="addFileForm.keywords" outlined label="Keywords" placeholder="Input Keywords">
+              <q-input v-model="addFileForm.keywords" outlined dense label="Keywords" placeholder="Input Keywords">
                 <template v-slot:prepend><q-icon name="label" color="blue-6" /></template>
               </q-input>
 
               <!-- Description -->
-              <q-input v-model="addFileForm.desc" outlined label="Description" placeholder="Input Description">
+              <q-input v-model="addFileForm.desc" outlined dense label="Description" placeholder="Input Description">
                 <template v-slot:prepend><q-icon name="notes" color="blue-6" /></template>
               </q-input>
 
               <!-- PIC Owner -->
               <q-select v-model="addFileForm.owner" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                label="PIC Owner" outlined use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                label="PIC Owner *" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                 <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps">
@@ -543,7 +552,7 @@
 
               <!-- PIC Keeper -->
               <q-select v-model="addFileForm.keeper" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                label="PIC Keeper *" outlined use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                label="PIC Keeper *" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                 <template v-slot:prepend><q-icon name="person_outline" color="teal-6" /></template>
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps">
@@ -557,14 +566,14 @@
 
               <!-- Email Keeper (readonly) -->
               <div>
-                <q-input :model-value="addFileKeeperEmail" outlined label="Email Keeper" readonly>
+                <q-input :model-value="addFileKeeperEmail" outlined dense label="Email Keeper" readonly>
                   <template v-slot:prepend><q-icon name="email" color="grey-6" /></template>
                 </q-input>
                 <div class="tw-text-xs tw-text-slate-500 tw-mt-1"><em>* jika email salah atau kosong, harap diinformasikan ke Admin Business Unit</em></div>
               </div>
 
               <!-- Konfirmasi Keeper -->
-              <q-select v-model="addFileForm.konfirmasiKeeper" outlined label="Konfirmasi Keeper"
+              <q-select v-model="addFileForm.konfirmasiKeeper" outlined dense label="Konfirmasi Keeper"
                 :options="[{label:'Manual Confirm', value:1}, {label:'Auto Confirm', value:0}]"
                 emit-value map-options>
                 <template v-slot:prepend><q-icon name="verified" color="green-6" /></template>
@@ -574,18 +583,18 @@
             <!-- RIGHT COLUMN (like legacy span6) -->
             <div class="tw-w-1/2 tw-space-y-4">
               <!-- Business Unit Mapping (readonly) -->
-              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined label="Business Unit Mapping" readonly>
+              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Business Unit Mapping" readonly>
                 <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
               </q-input>
 
               <!-- Division Mapping (readonly) -->
-              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_div : ''" outlined label="Division Mapping" readonly>
+              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_div : ''" outlined dense label="Division Mapping" readonly>
                 <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
               </q-input>
 
               <!-- DIC (Director in Charge — grade 7/8) -->
               <q-select v-model="addFileForm.dic" :options="filteredDicList" option-value="employee_id" option-label="display_label"
-                label="DIC (Director in Charge) *" outlined use-input input-debounce="300" @filter="filterDicEmployees" emit-value map-options>
+                label="DIC (Director in Charge) *" outlined dense use-input input-debounce="300" @filter="filterDicEmployees" emit-value map-options>
                 <template v-slot:prepend><q-icon name="supervisor_account" color="red-6" /></template>
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps">
@@ -598,19 +607,19 @@
               </q-select>
 
               <!-- Jenis File -->
-              <q-select v-model="addFileForm.type" outlined label="Jenis File *"
+              <q-select v-model="addFileForm.type" outlined dense label="Jenis File *"
                 :options="[{label:'Renewable', value:'renewable'}, {label:'Non-Renewable', value:'non-renewable'}]"
                 emit-value map-options>
                 <template v-slot:prepend><q-icon name="category" color="blue-6" /></template>
               </q-select>
 
               <!-- Due Date -->
-              <q-input v-if="addFileForm.type === 'renewable'" v-model="addFileForm.duedate" outlined label="Due Date *" type="date">
+              <q-input v-if="addFileForm.type === 'renewable'" v-model="addFileForm.duedate" outlined dense label="Due Date *" type="date">
                 <template v-slot:prepend><q-icon name="event" color="orange-7" /></template>
               </q-input>
 
               <!-- Security -->
-              <q-select v-model="addFileForm.security" outlined label="Security"
+              <q-select v-model="addFileForm.security" outlined dense label="Security *"
                 :options="[{label:'Confidential', value:'confidential'}, {label:'Restricted', value:'restricted'}, {label:'Non-Restricted', value:'non-restricted'}]"
                 emit-value map-options>
                 <template v-slot:prepend><q-icon name="security" color="teal-6" /></template>
@@ -618,10 +627,10 @@
 
               <!-- Upload File -->
               <div>
-                <q-file v-model="addFileForm.file" outlined label="Upload File *" accept="*/*" max-file-size="10485760">
+                <q-file v-model="addFileForm.file" outlined dense label="Upload File *" accept=".doc,.docx" max-file-size="15728640" counter @rejected="onFileRejected">
                   <template v-slot:prepend><q-icon name="attach_file" color="blue-6" /></template>
                 </q-file>
-                <div class="tw-text-xs tw-text-slate-500 tw-mt-1">Maksimal 10MB</div>
+                <div class="tw-text-xs tw-text-slate-500 tw-mt-1">Extension File : .doc / .docx, Max size : 15MB</div>
               </div>
             </div>
           </div>
@@ -629,15 +638,15 @@
         <q-separator />
         <q-card-actions align="right" class="tw-p-4 tw-bg-slate-50">
           <q-btn label="Batal" color="red-7" push icon="close" v-close-popup class="tw-px-6" />
-          <q-btn label="Save" color="green-7" push icon="save" @click="submitAddFile" :loading="uploadingFile" class="tw-px-6" />
+          <q-btn label="Simpan" color="blue-7" push icon="save" @click="submitAddFile" :loading="uploadingFile" class="tw-px-6" />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <!-- Dialog: Properties (File Detail) -->
-    <q-dialog v-model="dialogProperties" transition-show="slide-up" transition-hide="slide-down" maximized>
+    <q-dialog v-model="dialogProperties" transition-show="slide-up" transition-hide="slide-down" backdrop-filter="blur(4px)" persistent full-width>
       <q-card class="tw-w-full tw-max-w-5xl tw-mx-auto tw-my-4 tw-rounded-2xl" style="max-height: 95vh;">
-        <q-card-section class="tw-bg-teal-600">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
               <q-icon name="info" size="28px" /> Properties
@@ -703,9 +712,9 @@
     </q-dialog>
 
     <!-- Dialog: Permission File -->
-    <q-dialog v-model="dialogPermissionFile" transition-show="slide-up" transition-hide="slide-down" maximized>
+    <q-dialog v-model="dialogPermissionFile" transition-show="slide-up" transition-hide="slide-down" backdrop-filter="blur(4px)" persistent full-width>
       <q-card class="tw-w-full tw-max-w-5xl tw-mx-auto tw-my-4 tw-rounded-2xl" style="max-height: 95vh;">
-        <q-card-section class="tw-bg-purple-600">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
               <q-icon name="lock" size="28px" /> Manage Permission — {{ permissionFileName }}
@@ -846,7 +855,7 @@
 
                   <!-- Save -->
                   <div class="md:tw-col-span-2 tw-flex tw-justify-end">
-                    <q-btn unelevated color="blue-6" label="Save" no-caps @click="addPermissionEntry" :loading="savingPerm" class="tw-px-8" />
+                    <q-btn unelevated color="blue-6" label="Simpan" push icon="save" @click="addPermissionEntry" :loading="savingPerm" />
                   </div>
                 </div>
               </q-card-section>
@@ -857,9 +866,9 @@
     </q-dialog>
 
     <!-- Dialog: Permission Folder -->
-    <q-dialog v-model="dialogPermFolder" transition-show="slide-up" transition-hide="slide-down" maximized>
+    <q-dialog v-model="dialogPermFolder" transition-show="slide-up" transition-hide="slide-down" backdrop-filter="blur(4px)" persistent full-width>
       <q-card class="tw-w-full tw-max-w-5xl tw-mx-auto tw-my-4 tw-rounded-2xl" style="max-height: 95vh;">
-        <q-card-section class="tw-bg-purple-700">
+        <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
               <q-icon name="folder_shared" size="28px" /> Permission Folder — {{ permFolderName }}
@@ -1002,7 +1011,7 @@
 
                   <!-- Save -->
                   <div class="md:tw-col-span-2 tw-flex tw-justify-end">
-                    <q-btn unelevated color="blue-6" label="Save" no-caps @click="addPermFolderEntry" :loading="savingPermFolder" class="tw-px-8" />
+                    <q-btn unelevated color="blue-6" label="Simpan" push icon="save" @click="addPermFolderEntry" :loading="savingPermFolder" />
                   </div>
                 </div>
               </q-card-section>
@@ -1750,11 +1759,11 @@ const editPermFolderEntry = (row) => {
   $q.dialog({
     title: `Edit Permission — ${scopeLabel}`,
     message: `<div style="font-size:13px; margin-bottom:12px;">
-      <div><b>Nama Folder:</b> ${permFolderName.value}</div>
-      <div><b>Path Folder:</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
-      <div><b>Mapping Business Unit:</b> ${folderBU === 'all' ? 'All Business Unit' : (folderBU || '-')}</div>
+      <div><b>Nama Folder :</b> ${permFolderName.value}</div>
+      <div><b>Path Folder :</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
+      <div><b>Mapping Business Unit :</b> ${folderBU === 'all' ? 'All Business Unit' : (folderBU || '-')}</div>
     </div>
-    <div>Update permission flags:</div>`,
+    <div>Update permission flags :</div>`,
     html: true,
     options: {
       type: 'checkbox',
@@ -1770,7 +1779,7 @@ const editPermFolderEntry = (row) => {
       ]
     },
     ok: { push: true, color: 'blue-6', label: 'Simpan' },
-    cancel: { push: true, color: 'grey-7', label: 'Batal' },
+    cancel: { push: true, color: 'red-7', label: 'Batal' },
     persistent: true,
   }).onOk(async (selected) => {
     try {
@@ -1953,11 +1962,11 @@ const editPermFileEntry = (row) => {
   $q.dialog({
     title: `Edit Permission — ${scopeLabel}`,
     message: `<div style="font-size:13px; margin-bottom:12px;">
-      <div><b>Nama File:</b> ${permissionFileName.value}</div>
-      <div><b>Path Folder:</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
-      <div><b>Mapping Business Unit:</b> ${folderBU || '-'}</div>
+      <div><b>Nama File :</b> ${permissionFileName.value}</div>
+      <div><b>Path Folder :</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
+      <div><b>Mapping Business Unit :</b> ${folderBU || '-'}</div>
     </div>
-    <div>Update permission flags:</div>`,
+    <div>Update permission flags :</div>`,
     html: true,
     options: {
       type: 'checkbox',
@@ -1975,7 +1984,7 @@ const editPermFileEntry = (row) => {
       ]
     },
     ok: { push: true, color: 'blue-6', label: 'Simpan' },
-    cancel: { push: true, color: 'grey-7', label: 'Batal' },
+    cancel: { push: true, color: 'red-7', label: 'Batal' },
     persistent: true,
   }).onOk(async (selected) => {
     try {
@@ -2037,6 +2046,15 @@ const loadFolderAccess = async (folderId = null) => {
     folderAccess.value = { add_folder: 0, rename_folder: 0, delete_folder: 0, permission_folder: 0, add_file: 0, permission_file: 0 };
   }
 };
+
+const onFileRejected = (rejectedEntries) => {
+    $q.notify({
+        type: 'negative',
+        message: 'File ditolak. Pastikan format upload file .doc/.docx dan ukuran file max 15MB'
+    });
+    addFileForm.value.file = null;
+    renewForm.value.file = null;
+}
 
 // --- Lifecycle ---
 onMounted(() => { loadFolderTree(); loadBuOptions(); loadFolderAccess(); });
