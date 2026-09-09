@@ -412,7 +412,7 @@
 
               <div>
                 <q-select v-model="editForm.content_owner" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                  label="PIC Owner" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                  label="PIC Owner *" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                   <template v-slot:prepend><q-icon name="person" color="blue-6" /></template>
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps"><q-item-section><q-item-label>{{ scope.opt.employee_name }}</q-item-label><q-item-label caption>{{ scope.opt.employee_id }} | {{ scope.opt.bu_name }} - {{ scope.opt.div_nama }}</q-item-label></q-item-section></q-item>
@@ -423,7 +423,7 @@
 
               <div>
                 <q-select v-model="editForm.content_keeper" :options="filteredEmployees" option-value="employee_id" option-label="display_label"
-                  label="PIC Keeper" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
+                  label="PIC Keeper *" outlined dense use-input input-debounce="300" @filter="filterEmployees" emit-value map-options>
                   <template v-slot:prepend><q-icon name="person_outline" color="teal-6" /></template>
                   <template v-slot:option="scope">
                     <q-item v-bind="scope.itemProps"><q-item-section><q-item-label>{{ scope.opt.employee_name }}</q-item-label><q-item-label caption>{{ scope.opt.employee_id }} | {{ scope.opt.bu_name }} - {{ scope.opt.div_nama }}</q-item-label></q-item-section></q-item>
@@ -453,7 +453,7 @@
                 <template v-slot:prepend><q-icon name="category" color="blue-6" /></template>
               </q-select>
 
-              <q-input v-model="editForm.content_duedate" outlined dense label="Due Date" type="date"
+              <q-input v-model="editForm.content_duedate" outlined dense label="Due Date *" type="date"
                 :disable="editForm.content_type !== 'renewable'">
                 <template v-slot:prepend><q-icon name="event" color="orange-7" /></template>
               </q-input>
