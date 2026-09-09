@@ -849,7 +849,7 @@
                       <q-toggle v-model="newPermView" label="View" color="green" />
                       <q-toggle v-model="newPermDownload" label="Download" color="blue-6" />
                       <q-toggle v-model="newPermDelete" label="Delete" color="red-6" />
-                      <q-toggle v-model="newPermUpload" label="Upload" color="orange-7" />
+                      <q-toggle v-model="newPermUpload" label="Edit" color="orange-7" />
                     </div>
                   </div>
 
