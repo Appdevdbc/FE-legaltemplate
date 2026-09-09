@@ -6,20 +6,20 @@
         
         <q-toolbar-title class="modern-title">
           <div class="title-container">
-            <span class="app-name">Legal Template Folder</span>
-            <span class="app-subtitle">Aplikasi Legal Template Folder</span>
+            <span class="app-name">{{ app_name() }}</span>
+            <span class="app-subtitle">{{ app_desc() }}</span>
           </div>
         </q-toolbar-title>
 
         <q-space />
 
         <div class="flex items-center gap-4">
-          <div class="bg-white/15 px-4 py-2 rounded-[20px] text-sm font-medium flex items-center backdrop-blur-[10px]">
+          <div class="bg-white/15 px-4 py-2 rounded-[20px] q-mr-sm text-sm font-medium flex items-center backdrop-blur-[10px]">
             <q-icon name="business" class="q-mr-xs" />
             {{ Unit }}
           </div>
           
-          <q-btn round flat class="bg-white/10 rounded-xl transition-all duration-300 hover:bg-white/20 hover:-translate-y-0.5" icon="apps" size="md">
+          <!-- <q-btn round flat class="bg-white/10 rounded-xl transition-all duration-300 hover:bg-white/20 hover:-translate-y-0.5" icon="apps" size="md">
             <q-tooltip class="tw-bg-black/80 tw-text-white">Select Domain</q-tooltip>
             <q-menu class="domain-select-menu">
               <div class="domain-menu-container">
@@ -61,7 +61,7 @@
                 </div>
               </div>
             </q-menu>
-          </q-btn>
+          </q-btn> -->
           
           <q-btn round flat class="transition-all duration-300 hover:-translate-y-0.5" @click="openProfileDrawer">
             <q-tooltip class="tw-bg-black/80 tw-text-white">View Profile</q-tooltip>
@@ -115,7 +115,7 @@
 
     <q-footer elevated dense>
       <q-toolbar :class="$q.dark.mode ? `${Footer} text-white` : `${Footer} text-white`">
-        <q-toolbar-title class="text-subtitle2">Copyright &#169; 2026 IT DBC
+        <q-toolbar-title class="text-subtitle2">Copyright &#169; {{ app_year() }} IT DBC
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
@@ -211,10 +211,9 @@
           </div>
       </div>
       
-      <div style="height: 400px;"></div>
+      <!-- <div style="height: 400px;"></div> -->
       
-      <q-scroll-area style="height: calc(100vh - 400px);">
-        
+      <q-scroll-area style="height: calc(100vh - 350px);">
         <div class="navigation-section">
           <div v-if="!listMenu || listMenu.length === 0" class="no-menu-message">
             <q-icon name="menu" size="2rem" color="grey-5" />
@@ -385,7 +384,8 @@
 import { ref,computed,onMounted  } from "vue";
 import { useQuasar } from "quasar";
 import axios from "axios"
-import { empid, nama, nik, ParseError, domain,unit,idleTime, spinnerBall, role, decryptMessage } from "./../utils";
+import { empid, nama, nik, ParseError, domain,unit,idleTime, spinnerBall, role, decryptMessage, 
+  app_name, app_desc, app_year, app_env, app_link_portal } from "./../utils";
 import { useRouter, useRoute } from "vue-router";
 import { useBrowserLocation,useTimeoutFn } from '@vueuse/core'
 import ProfileDrawer from './../components/ProfileDrawer.vue';
@@ -401,8 +401,8 @@ const mode = ref(false);
 const menuType = ref(false); /*false untuk sidemenu & true untuk topmenu*/
 const listDomain = ref([]);
 const domainSearchQuery = ref('');
-// const Domain = ref(domain());
-const Domain = ref('210');
+const Domain = ref(domain());
+// const Domain = ref('120');
 const pattern = `${domain()} - `;
 const Unit = ref(unit().startsWith(pattern) ? unit().substring(pattern.length) : unit());
 const Nama = ref(nama() || "User");
@@ -781,11 +781,11 @@ const logoutUser = async () => {
       window.localStorage.clear();
       window.sessionStorage.clear();
       let environment = `${import.meta.env.VITE_ENV}`;
-      if (environment == 'LOCAL'){
+      // if (environment == 'LOCAL'){
           router.push("/login");
-      }else{
-          window.location.replace(`${import.meta.env.VITE_APPDBC}`);
-      }
+      // }else{
+      //     window.location.replace(`${import.meta.env.VITE_APPDBC}`);
+      // }
       //router.push("https://app.dbc.co.id");
       //router.push("/");
     }
@@ -815,11 +815,11 @@ const logoutSystem = async () => {
       window.localStorage.clear();
       window.sessionStorage.clear();
       let environment = `${import.meta.env.VITE_ENV}`;
-      if (environment == 'LOCAL'){
+      // if (environment == 'LOCAL'){
           router.push("/login");
-      }else{
-           window.location.replace(`${import.meta.env.VITE_APPDBC}`);
-      }
+      // }else{
+      //      window.location.replace(`${import.meta.env.VITE_APPDBC}`);
+      // }
       //router.push("https://app.dbc.co.id");
       //router.push("/");
     }
@@ -854,10 +854,10 @@ if (window.localStorage.getItem("dark")) {
   }
 }
 
-if (window.localStorage.getItem("token")) {
-  // api.defaults.headers.common["Authorization"] = window.localStorage.getItem("token");
-  axios.defaults.headers.common["Authorization"] = 'Bearer ' + window.localStorage.getItem("token");
-}
+// if (window.localStorage.getItem("token")) {
+//   // api.defaults.headers.common["Authorization"] = window.localStorage.getItem("token");
+//   axios.defaults.headers.common["Authorization"] = 'Bearer ' + window.localStorage.getItem("token");
+// }
 
 //setListDomain();
 

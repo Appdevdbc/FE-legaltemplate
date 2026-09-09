@@ -19,8 +19,8 @@
         </div>
         
         <div class="text-content">
-          <h1 class="main-title">{{ nama() }}</h1>
-          <p class="subtitle">Selamat Datang<br/>di Aplikasi Legal Template Folder</p>
+          <h1 class="main-title">{{ app_name() }}</h1>
+          <p class="subtitle">Selamat Datang<br />di {{ app_desc() }}</p>
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { empid, nama, nik, ParseError, domain,unit,idleTime, spinnerBall, role, decryptMessage } from "../utils";
+import { empid, nama, nik, ParseError, domain,unit,idleTime, spinnerBall, role, decryptMessage, app_name, app_desc } from "../utils";
 </script>
 <style scoped>
 .welcome-screen {

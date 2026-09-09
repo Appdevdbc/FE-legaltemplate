@@ -29,10 +29,10 @@
             <div class="tw-flex tw-items-center tw-justify-between tw-mb-3">
               <span class="tw-font-bold tw-text-slate-700 tw-text-sm tw-uppercase">Folder</span>
               <div class="tw-flex tw-gap-1">
-                    <q-btn v-if="selectedFolderNode && !isRootSelected" icon="edit" size="sm" label="Rename Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="orange-8" @click="openRenameFolderDialog(selectedFolderNode)">
+                    <q-btn v-if="selectedFolderNode && !isRootSelected && folderAccess.rename_folder === 1" icon="edit" size="sm" label="Rename Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="orange-8" @click="openRenameFolderDialog(selectedFolderNode)">
                   <q-tooltip>Rename Folder</q-tooltip>
                 </q-btn>
-                <q-btn icon="create_new_folder" size="sm" label="Add Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="blue-9" @click="openCreateFolderDialog" :disable="!selectedFolderNode">
+                <q-btn v-if="folderAccess.add_folder === 1" icon="create_new_folder" size="sm" label="Add Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="blue-9" @click="openCreateFolderDialog" :disable="!selectedFolderNode">
                   <q-tooltip>Buat Folder</q-tooltip>
                 </q-btn>
                               <!-- <q-btn
@@ -97,10 +97,10 @@
 
             <!-- Bottom Buttons -->
             <div v-if="selectedFolderNode" class="tw-mt-4 tw-flex tw-gap-2 tw-flex-wrap">
-              <q-btn dense icon="lock" size="sm" label="Permission Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="purple-6" @click="openPermissionFolder(selectedFolderNode)">
+              <q-btn v-if="folderAccess.permission_folder === 1" dense icon="lock" size="sm" label="Permission Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="purple-6" @click="openPermissionFolder(selectedFolderNode)">
                 <q-tooltip>Permission Folder</q-tooltip>
               </q-btn>
-              <q-btn v-if="selectedFolderNode && !isRootSelected" dense icon="delete" size="sm" label="Delete Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="red-7" @click="confirmDeleteFolder(selectedFolderNode)">
+              <q-btn v-if="selectedFolderNode && !isRootSelected && folderAccess.delete_folder === 1" dense icon="delete" size="sm" label="Delete Folder" class="tw-rounded-lg tw-py-1 tw-px-3" color="red-7" @click="confirmDeleteFolder(selectedFolderNode)">
                   <q-tooltip>Hapus Folder</q-tooltip>
                 </q-btn>
             </div>
@@ -114,7 +114,7 @@
                 {{ selectedFolderNode ? 'File — ' + selectedFolderNode.folder_name : 'FILE' }}
               </span>
               <q-btn
-                v-if="selectedFolderId && !isRootSelected"
+                v-if="selectedFolderId && !isRootSelected && folderAccess.add_file === 1"
                 unelevated color="blue-6" label="Add File" icon="upload_file" size="sm"
                 @click="openAddFileDialog"
                 class="tw-rounded-lg tw-py-1 tw-px-3"
@@ -214,13 +214,13 @@
 
               <template v-slot:body-cell-permission="props">
                 <q-td :props="props" class="tw-text-center">
-                  <q-btn unelevated dense size="sm" color="purple-6" label="Manage" no-caps @click="goToPermissionFile(props.row)" class="tw-min-w-[60px]" />
+                  <q-btn v-if="folderAccess.permission_file === 1" unelevated dense size="sm" color="purple-6" label="Manage" no-caps @click="goToPermissionFile(props.row)" class="tw-min-w-[60px]" />
                 </q-td>
               </template>
 
               <template v-slot:body-cell-properties="props">
                 <q-td :props="props" class="tw-text-center">
-                  <q-btn unelevated dense size="sm" color="blue-6" label="Properties" no-caps @click="goToFileDetail(props.row)" class="tw-min-w-[60px]" />
+                  <q-btn unelevated dense size="sm" color="indigo-6" label="Detail" no-caps @click="goToFileDetail(props.row)" class="tw-min-w-[60px]" />
                 </q-td>
               </template>
 
@@ -251,7 +251,7 @@
     </q-card>
 
     <!-- Dialog: Create Folder -->
-    <q-dialog v-model="dialogCreateFolder" transition-show="slide-up" transition-hide="slide-down">
+    <q-dialog v-model="dialogCreateFolder" transition-show="slide-up" transition-hide="slide-down" persistent>
       <q-card class="tw-w-full tw-max-w-lg tw-rounded-2xl">
         <q-card-section class="tw-bg-blue-600">
           <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
@@ -261,13 +261,12 @@
         <q-separator />
         <q-card-section class="tw-p-6">
           <!-- Nama Folder -->
-          <q-input v-model="newFolderName" outlined label="Nama Folder" autofocus class="tw-mb-4"
-            :rules="[val => !!val || 'Nama folder wajib diisi']">
+          <q-input v-model="newFolderName" outlined dense label="Nama Folder" autofocus class="tw-mb-4">
             <template v-slot:prepend><q-icon name="folder" color="blue-6" /></template>
           </q-input>
 
           <!-- Parent Folder (readonly) -->
-          <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_name : '/'" outlined label="Parent Folder" readonly class="tw-mb-4">
+          <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_name : '/'" outlined dense label="Parent Folder" readonly class="tw-mb-4">
             <template v-slot:prepend><q-icon name="subdirectory_arrow_right" color="grey-7" /></template>
           </q-input>
 
@@ -276,21 +275,9 @@
             v-if="newFolderTingkat === 1"
             v-model="newFolderSecurity"
             outlined
+            dense
             label="Akses Business Unit"
             :options="securityBUOptions"
-            emit-value map-options
-            class="tw-mb-4"
-          >
-            <template v-slot:prepend><q-icon name="security" color="teal-6" /></template>
-          </q-select>
-
-          <!-- Tingkat 2: Akses Divisi -->
-          <q-select
-            v-if="newFolderTingkat === 2"
-            v-model="newFolderSecurity"
-            outlined
-            label="Akses Divisi"
-            :options="securityDivOptions"
             emit-value map-options
             class="tw-mb-4"
           >
@@ -302,6 +289,7 @@
             v-if="newFolderTingkat === 1 && newFolderSecurity === 'restricted'"
             v-model="newFolderBU"
             outlined
+            dense
             label="Mapping Business Unit"
             :options="filteredBuOptionsFolder"
             emit-value map-options
@@ -312,21 +300,36 @@
           >
             <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
           </q-select>
-
+          
           <!-- Mapping Business Unit (tingkat >= 2, readonly from parent) -->
           <q-input
             v-if="newFolderTingkat >= 2"
             :model-value="parentBUName"
-            outlined label="Mapping Business Unit" readonly class="tw-mb-4"
+            outlined dense label="Mapping Business Unit" readonly class="tw-mb-4"
           >
             <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
           </q-input>
+
+          <!-- Tingkat 2: Akses Divisi -->
+          <q-select
+            v-if="newFolderTingkat === 2"
+            v-model="newFolderSecurity"
+            outlined
+            dense
+            label="Akses Divisi"
+            :options="securityDivOptions"
+            emit-value map-options
+            class="tw-mb-4"
+          >
+            <template v-slot:prepend><q-icon name="security" color="teal-6" /></template>
+          </q-select>
 
           <!-- Mapping Divisi (tingkat 2, only when restricted) -->
           <q-select
             v-if="newFolderTingkat === 2 && newFolderSecurity === 'restricted'"
             v-model="newFolderDiv"
             outlined
+            dense
             label="Mapping Divisi"
             :options="divOptions"
             emit-value map-options
@@ -339,14 +342,14 @@
           <q-input
             v-if="newFolderTingkat > 2"
             :model-value="parentDivName"
-            outlined label="Mapping Divisi" readonly class="tw-mb-4"
+            outlined dense label="Mapping Divisi" readonly class="tw-mb-4"
           >
             <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
           </q-input>
         </q-card-section>
         <q-card-actions align="right" class="tw-p-4 tw-bg-slate-50">
           <q-btn label="Batal" color="red-7" push icon="close" v-close-popup class="tw-px-6" />
-          <q-btn label="Buat" color="blue-6" push icon="check" @click="createFolder" :loading="savingFolder" class="tw-px-6" />
+          <q-btn label="Simpan" color="blue-6" push icon="check" @click="createFolder" :loading="savingFolder" class="tw-px-6" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -361,7 +364,7 @@
         </q-card-section>
         <q-separator />
         <q-card-section class="tw-p-6">
-          <q-input v-model="renameFolderName" outlined label="Nama Folder Baru" autofocus @keyup.enter="renameFolder"
+          <q-input v-model="renameFolderName" outlined dense label="Nama Folder Baru" autofocus @keyup.enter="renameFolder"
             :rules="[val => !!val || 'Nama folder wajib diisi']">
             <template v-slot:prepend><q-icon name="folder" color="orange-7" /></template>
           </q-input>
@@ -608,7 +611,7 @@
 
               <!-- Security -->
               <q-select v-model="addFileForm.security" outlined label="Security"
-                :options="[{label:'Non-Restricted', value:'non-restricted'}, {label:'Confidential', value:'restricted'}]"
+                :options="[{label:'Confidential', value:'confidential'}, {label:'Restricted', value:'restricted'}, {label:'Non-Restricted', value:'non-restricted'}]"
                 emit-value map-options>
                 <template v-slot:prepend><q-icon name="security" color="teal-6" /></template>
               </q-select>
@@ -1033,6 +1036,16 @@ const fileFilter = ref("");
 const folderSearch = ref("");
 const savingFolder = ref(false);
 
+// Folder-access flags for the logged-in user's role (from master_role)
+const folderAccess = ref({
+  add_folder: 0,
+  rename_folder: 0,
+  delete_folder: 0,
+  permission_folder: 0,
+  add_file: 0,
+  permission_file: 0,
+});
+
 const filePagination = ref({ sortBy: "name", descending: false, page: 1, rowsPerPage: 10 });
 
 // Computed: check if selected folder is root ("/")
@@ -1071,7 +1084,7 @@ const employeeList = ref([]);
 const filteredEmployees = ref([]);
 
 // Create folder form fields
-const newFolderSecurity = ref("restricted");
+const newFolderSecurity = ref("");
 const newFolderBU = ref("");
 const newFolderDiv = ref("");
 const newFolderTingkat = ref(1);
@@ -1082,11 +1095,13 @@ const divOptions = ref([]);
 // Options
 const securityBUOptions = [
   { label: "Business Unit Tertentu", value: "restricted" },
-  { label: "Semua Business Unit", value: "public" },
+  // { label: "Semua Business Unit", value: "public" },
+  { label: "Semua Business Unit", value: "non-restricted" },
 ];
 const securityDivOptions = [
   { label: "Divisi Tertentu", value: "restricted" },
   { label: "Semua Divisi", value: "public" },
+  // { label: "Semua Divisi", value: "non-restricted" },
 ];
 const buOptions = ref([]);
 
@@ -1124,7 +1139,7 @@ const permFileColumns = [
   { name: "view", label: "View", field: "aksesfile_view", align: "center", sortable: false, style: "width: 60px" },
   { name: "download", label: "Download", field: "aksesfile_download", align: "center", sortable: false, style: "width: 70px" },
   { name: "delete_perm", label: "Delete", field: "aksesfile_delete", align: "center", sortable: false, style: "width: 60px" },
-  { name: "upload", label: "Upload", field: "aksesfile_upload", align: "center", sortable: false, style: "width: 60px" },
+  { name: "upload", label: "Edit", field: "aksesfile_upload", align: "center", sortable: false, style: "width: 60px" },
   { name: "aksi", label: "Aksi", field: "aksi", align: "center", sortable: false, style: "width: 130px" },
 ];
 
@@ -1287,6 +1302,8 @@ const onFolderSelected = (folderId) => {
   // Check if this is the root folder (name "/" or no parent)
   isRootSelected.value = selectedFolderNode.value?.folder_name === '/' || selectedFolderNode.value?.folder_parent === '#';
   loadFiles(folderId);
+  // Re-evaluate folder action button access for the selected folder
+  loadFolderAccess(folderId);
 };
 
 // --- Folder CRUD ---
@@ -1307,14 +1324,8 @@ const openCreateFolderDialog = () => {
     parentDivName.value = "";
   }
 
-  // Set default security based on tingkat (like legacy)
-  if (newFolderTingkat.value === 1) {
-    newFolderSecurity.value = "restricted"; // Default: Business Unit Tertentu
-  } else if (newFolderTingkat.value === 2) {
-    newFolderSecurity.value = "public"; // Default: Semua Divisi (sesuai legacy)
-  } else {
-    newFolderSecurity.value = "public";
-  }
+  // Leave security unselected initially — user must choose the access option.
+  newFolderSecurity.value = "";
 
   // Load division options if tingkat 2
   if (newFolderTingkat.value === 2 && parentBUName.value) {
@@ -1350,9 +1361,13 @@ const filterBuFolder = (val, update) => {
 
 const createFolder = async () => {
   if (!newFolderName.value.trim()) {
-    $q.notify({ type: "warning", message: "Nama folder wajib diisi", position: "bottom" });
+    $q.notify({ type: "warning", message: "Nama Folder wajib diisi", position: "bottom" });
     return;
   }
+  // if (!newFolderSecurity.value) {
+  //   $q.notify({ type: "warning", message: "Akses Business Unit wajib dipilih", position: "bottom" });
+  //   return;
+  // }
   if (!selectedFolderId.value) {
     $q.notify({ type: "warning", message: "Pilih folder parent terlebih dahulu", position: "bottom" });
     return;
@@ -1386,6 +1401,14 @@ const createFolder = async () => {
       folderDiv = parentDivName.value;
       folderSecurity = selectedFolderNode.value?.folder_security || "non-restricted";
     }
+
+    // let folderBU = "";
+    // let folderDiv = "";
+    // let folderSecurity = newFolderSecurity.value;
+
+    // if(newFolderSecurity.value === 'non-restricted') folderBU = 'all';
+    // else if(newFolderSecurity.value === 'restricted') folderBU = newFolderBU.value;
+    // if(newFolderDiv.value === 'non-restricted') folderBU = 'all';
 
     await axios.post(`${import.meta.env.VITE_API}document/folder`, {
       folder_name: newFolderName.value.trim(),
@@ -1596,30 +1619,17 @@ const submitRenewFile = async () => {
 };
 const goToPermissionFile = (file) => { openPermissionFileDialog(file); };
 const viewFile = (file) => {
-  // Direct URL to FTP web server (like legacy)
-  if (file.file) {
-    window.open(`${import.meta.env.VITE_FTP_URL || 'https://app-files.dbc.co.id/legaltemplate/'}${file.file}`, "_blank");
-  } else {
-    // Fallback: use backend streaming with token in query
-    const token = window.localStorage.getItem("token");
-    window.open(`${import.meta.env.VITE_API}document/file/${file.id}/view?token=${token}`, "_blank");
-  }
+  // Route through backend viewFile controller.
+  // Auth token is sent automatically via httpOnly cookie (withCredentials),
+  // the controller verifies permission and streams the file inline for preview.
+  window.open(`${import.meta.env.VITE_API}document/file/${file.id}/view`, "_blank");
 };
+
 const downloadFile = (file) => {
-  // Direct URL to FTP web server with download attribute (like legacy)
-  if (file.file) {
-    const link = document.createElement('a');
-    link.href = `${import.meta.env.VITE_FTP_URL || 'https://app-files.dbc.co.id/legaltemplate/'}${file.file}`;
-    link.download = file.name || file.file;
-    link.target = "_blank";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    // Fallback: use backend streaming with token in query
-    const token = window.localStorage.getItem("token");
-    window.open(`${import.meta.env.VITE_API}document/file/${file.id}/download?token=${token}`, "_blank");
-  }
+  // Route through backend downloadFile controller.
+  // Auth token is sent automatically via httpOnly cookie (withCredentials),
+  // the controller verifies permission, streams from FTP and logs the activity.
+  window.open(`${import.meta.env.VITE_API}document/file/${file.id}/download`, "_blank");
 };
 
 // --- Properties Dialog ---
@@ -1901,6 +1911,8 @@ const addPermissionEntry = async () => {
     // Reload permission list
     const res = await axios.get(`${import.meta.env.VITE_API}document/permission/file/${permissionFileId.value}`);
     permissionFileList.value = res.data || [];
+    // Refresh the file table for the currently selected folder so access changes reflect
+    if (selectedFolderId.value) await loadFiles(selectedFolderId.value);
   } catch (err) {
     $q.notify({ type: "negative", message: err?.response?.data?.message || "Gagal menambahkan permission", position: "bottom" });
   } finally {
@@ -1926,6 +1938,8 @@ const updatePermFlag = async (row, flag, value) => {
     if (flag === 'download') row.aksesfile_download = value ? 1 : 0;
     if (flag === 'delete') row.aksesfile_delete = value ? 1 : 0;
     if (flag === 'upload') row.aksesfile_upload = value ? 1 : 0;
+    // Refresh the file table for the currently selected folder so access changes reflect
+    if (selectedFolderId.value) await loadFiles(selectedFolderId.value);
   } catch (err) {
     $q.notify({ type: "negative", message: "Gagal update permission", position: "bottom" });
   }
@@ -1957,7 +1971,7 @@ const editPermFileEntry = (row) => {
         { label: 'View', value: 'view' },
         { label: 'Download', value: 'download' },
         { label: 'Delete', value: 'delete' },
-        { label: 'Upload', value: 'upload' },
+        { label: 'Edit', value: 'upload' },
       ]
     },
     ok: { push: true, color: 'blue-6', label: 'Simpan' },
@@ -1975,6 +1989,8 @@ const editPermFileEntry = (row) => {
       $q.notify({ type: "positive", message: "Permission berhasil diperbarui", position: "bottom" });
       const res = await axios.get(`${import.meta.env.VITE_API}document/permission/file/${permissionFileId.value}`);
       permissionFileList.value = res.data || [];
+      // Refresh the file table for the currently selected folder so access changes reflect
+      if (selectedFolderId.value) await loadFiles(selectedFolderId.value);
     } catch (err) {
       $q.notify({ type: "negative", message: err?.response?.data?.message || "Gagal update permission", position: "bottom" });
     }
@@ -1996,12 +2012,32 @@ const deletePermissionEntry = async (row) => {
       $q.notify({ type: "positive", message: "Permission berhasil dihapus", position: "bottom" });
       const res = await axios.get(`${import.meta.env.VITE_API}document/permission/file/${permissionFileId.value}`);
       permissionFileList.value = res.data || [];
+      // Refresh the file table for the currently selected folder so access changes reflect
+      if (selectedFolderId.value) await loadFiles(selectedFolderId.value);
     } catch (err) {
       $q.notify({ type: "negative", message: err?.response?.data?.message || "Gagal menghapus permission", position: "bottom" });
     }
   });
 };
 
+const loadFolderAccess = async (folderId = null) => {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API}document/folder/access`, {
+      params: folderId ? { folder_id: folderId } : {},
+    });
+    folderAccess.value = {
+      add_folder: res.data?.add_folder ? 1 : 0,
+      rename_folder: res.data?.rename_folder ? 1 : 0,
+      delete_folder: res.data?.delete_folder ? 1 : 0,
+      permission_folder: res.data?.permission_folder ? 1 : 0,
+      add_file: res.data?.add_file ? 1 : 0,
+      permission_file: res.data?.permission_file ? 1 : 0,
+    };
+  } catch {
+    folderAccess.value = { add_folder: 0, rename_folder: 0, delete_folder: 0, permission_folder: 0, add_file: 0, permission_file: 0 };
+  }
+};
+
 // --- Lifecycle ---
-onMounted(() => { loadFolderTree(); loadBuOptions(); });
+onMounted(() => { loadFolderTree(); loadBuOptions(); loadFolderAccess(); });
 </script>

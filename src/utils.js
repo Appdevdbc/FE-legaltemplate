@@ -53,11 +53,6 @@ export function decodeFromUrl (ciphertext) {
    return ciphertext.replace(/-/g, '+').replace(/_/g, '/').padEnd(ciphertext.length + (4 - (ciphertext.length % 4)) % 4, '=');
 }
 
-export const nik = () => {
-  let data = JSON.parse(window.localStorage.getItem("data"));
-  return data.data.nik;
-};
-
 export const terbilang = (angka) => {
   var bilne=["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas"];
   if(angka < 12){
@@ -83,21 +78,70 @@ export const terbilang = (angka) => {
   }
 }
 
+export const nik = () => {
+  // let data = JSON.parse(window.localStorage.getItem("data"));
+  // return data.data.nik;
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.nik || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
+};
+
 export const empid = () => {
-  let data = JSON.parse(window.localStorage.getItem("data"));
-  //console.log(data);
-  if (data){
-    return data.data.empid;
-  }else
-  return window.localStorage.getItem("empid"); 
+  // let data = JSON.parse(window.localStorage.getItem("data"));
+  // //console.log(data);
+  // if (data){
+  //   return data.data.empid;
+  // }else
+  // return window.localStorage.getItem("empid"); 
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.empid || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const nama = () => {
-  return window.localStorage.getItem("nama");
+  // return window.localStorage.getItem("nama");
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.nama || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const role = () => {
-  return window.localStorage.getItem("role");
+  // return window.localStorage.getItem("role");
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.role || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const admin = () => {
@@ -106,7 +150,18 @@ export const admin = () => {
 
 export const domain = () => {
   // return window.localStorage.getItem("domain");
-  return '210';
+  // return '210';
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.domain || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const site= () => {
@@ -118,16 +173,49 @@ export const ListSite = () => {
 };
 
 export const idleTime = () => {
-  return window.localStorage.getItem("idle_time");
+  // return window.localStorage.getItem("idle_time");
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.idle || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const unit = () => {
-  return window.localStorage.getItem("unit");
+  // return window.localStorage.getItem("unit");
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.unit || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const token = () => {
-  let data = JSON.parse(window.localStorage.getItem("data"));
-  return data.data.token;
+  // let data = JSON.parse(window.localStorage.getItem("data"));
+  // return data.data.token;
+    const session = window.localStorage.getItem("session");
+    if (session) {
+        try {
+            const decrypted = decryptMessage(session);
+            const parsed = JSON.parse(decrypted);
+            return parsed.token || '';
+        } catch (e) {
+            return '';
+        }
+    }
+    return '';
 };
 
 export const ParseError = (error) => {
@@ -471,3 +559,48 @@ export const formatNumber = (value) => {
   if (!value) return '';
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+export const NumberOnly = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+    } else {
+        return true;
+    }
+}
+
+export const NoSpace = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+    if (charCode == 32) {
+        evt.preventDefault();
+    }
+}
+
+export const app_env = () => {
+    let data = `${import.meta.env.VITE_ENV}`;
+    return data;
+}
+
+export const app_name = () => {
+    let data = `${import.meta.env.VITE_APPNAME}`;
+    return data;
+}
+
+export const app_desc = () => {
+    let data = `${import.meta.env.VITE_APPDESC}`;
+    return data;
+}
+
+export const app_year = () => {
+    let data = `${import.meta.env.VITE_APPYEAR}`;
+    return data;
+}
+
+export const app_link_portal = () => {
+    let data = `${import.meta.env.VITE_APPDBC}`;
+    return data;
+}

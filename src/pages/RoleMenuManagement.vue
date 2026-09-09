@@ -106,7 +106,7 @@
     </q-card>
 
     <!-- Dialog Add Menu to Role (Multiple Select with Checkboxes) -->
-    <q-dialog v-model="dialogAdd" transition-show="slide-up" transition-hide="slide-down">
+    <q-dialog v-model="dialogAdd" transition-show="slide-up" transition-hide="slide-down" persistent>
       <q-card class="tw-w-full tw-max-w-lg tw-rounded-2xl">
         <q-card-section class="tw-bg-blue-600">
           <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
