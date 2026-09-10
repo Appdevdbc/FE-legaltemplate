@@ -1180,7 +1180,7 @@ const fileColumns = [
 // Permission file table columns (like legacy: No, NIK, Nama, BU, Divisi, View, Download, Delete, Upload, Aksi)
 const permFileColumns = [
   { name: "no", label: "No", field: "no", align: "center", sortable: false, style: "width: 40px" },
-  { name: "nik", label: "NIK", field: "aksesfile_nik", align: "left", sortable: true, style: "width: 150px" },
+  { name: "nik", label: "NIK", field: "aksesfile_nik", align: "left", sortable: true, style: "width: 200px" },
   { name: "nama", label: "Nama", field: "user_name", align: "left", sortable: true },
   { name: "bu", label: "Bisnis Unit", field: "aksesfile_bu", align: "left", sortable: true },
   { name: "div", label: "Divisi", field: "aksesfile_div", align: "left", sortable: true },
@@ -1194,7 +1194,7 @@ const permFileColumns = [
 // Permission folder table columns
 const permFolderColumns = [
   { name: "no", label: "No", field: "no", align: "center", sortable: false, style: "width: 40px" },
-  { name: "nik", label: "NIK", field: "aksesfolder_nik", align: "left", sortable: true, style: "width: 150px" },
+  { name: "nik", label: "NIK", field: "aksesfolder_nik", align: "left", sortable: true, style: "width: 200px" },
   { name: "nama", label: "Nama", field: "user_name", align: "left", sortable: true },
   { name: "bu", label: "Bisnis Unit", field: "aksesfolder_bu", align: "left", sortable: true },
   { name: "div", label: "Divisi", field: "aksesfolder_div", align: "left", sortable: true },
