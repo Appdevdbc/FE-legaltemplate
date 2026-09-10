@@ -276,7 +276,7 @@
             v-model="newFolderSecurity"
             outlined
             dense
-            label="Akses Business Unit"
+            label="Akses Bisnis Unit"
             :options="securityBUOptions"
             emit-value map-options
             class="tw-mb-4"
@@ -290,7 +290,7 @@
             v-model="newFolderBU"
             outlined
             dense
-            label="Mapping Business Unit"
+            label="Mapping Bisnis Unit"
             :options="filteredBuOptionsFolder"
             emit-value map-options
             use-input
@@ -305,7 +305,7 @@
           <q-input
             v-if="newFolderTingkat >= 2"
             :model-value="parentBUName"
-            outlined dense label="Mapping Business Unit" readonly class="tw-mb-4"
+            outlined dense label="Mapping Bisnis Unit" readonly class="tw-mb-4"
           >
             <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
           </q-input>
@@ -439,11 +439,11 @@
                 <div class="tw-text-xs tw-text-slate-500 tw-mt-1"><em>* jika email salah atau kosong, harap diinformasikan ke Admin BU</em></div>
               </div>
 
-              <q-input :model-value="editForm.content_bu" outlined dense label="Business Unit Mapping" readonly>
+              <q-input :model-value="editForm.content_bu" outlined dense label="Mapping Bisnis Unit" readonly>
                 <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
               </q-input>
 
-              <q-input :model-value="editForm.content_div" outlined dense label="Division Mapping" readonly>
+              <q-input :model-value="editForm.content_div" outlined dense label="Mapping Divisi" readonly>
                 <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
               </q-input>
 
@@ -569,7 +569,7 @@
                 <q-input :model-value="addFileKeeperEmail" outlined dense label="Email Keeper" readonly>
                   <template v-slot:prepend><q-icon name="email" color="grey-6" /></template>
                 </q-input>
-                <div class="tw-text-xs tw-text-slate-500 tw-mt-1"><em>* jika email salah atau kosong, harap diinformasikan ke Admin Business Unit</em></div>
+                <div class="tw-text-xs tw-text-slate-500 tw-mt-1"><em>* jika email salah atau kosong, harap diinformasikan ke Admin Bisnis Unit</em></div>
               </div>
 
               <!-- Konfirmasi Keeper -->
@@ -583,12 +583,12 @@
             <!-- RIGHT COLUMN (like legacy span6) -->
             <div class="tw-w-1/2 tw-space-y-4">
               <!-- Business Unit Mapping (readonly) -->
-              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Business Unit Mapping" readonly>
+              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Mapping Bisnis Unit" readonly>
                 <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
               </q-input>
 
               <!-- Division Mapping (readonly) -->
-              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_div : ''" outlined dense label="Division Mapping" readonly>
+              <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_div : ''" outlined dense label="Mapping Divisi" readonly>
                 <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
               </q-input>
 
@@ -672,8 +672,8 @@
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Owner</td><td class="tw-py-2">{{ propertiesData.owner_name || '-' }} ({{ propertiesData.content_owner || '-' }})</td></tr>
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Keeper</td><td class="tw-py-2">{{ propertiesData.keeper_name || '-' }} ({{ propertiesData.content_keeper || '-' }})</td></tr>
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Keeper Status</td><td class="tw-py-2">{{ propertiesData.content_statuskeeper === 1 ? 'Confirmed' : propertiesData.content_statuskeeper === 2 ? 'Rejected' : 'Pending' }}</td></tr>
-                  <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Business Unit</td><td class="tw-py-2">{{ propertiesData.content_bu || '-' }}</td></tr>
-                  <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Division</td><td class="tw-py-2">{{ propertiesData.content_div || '-' }}</td></tr>
+                  <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Bisnis Unit</td><td class="tw-py-2">{{ propertiesData.content_bu || '-' }}</td></tr>
+                  <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Divisi</td><td class="tw-py-2">{{ propertiesData.content_div || '-' }}</td></tr>
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Type</td><td class="tw-py-2">{{ propertiesData.content_type || '-' }}</td></tr>
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Due Date</td><td class="tw-py-2">{{ propertiesData.content_duedate ? formatDate(propertiesData.content_duedate) : '-' }}</td></tr>
                   <tr class="tw-border-b tw-border-slate-100"><td class="tw-font-semibold tw-text-slate-600 tw-py-2 tw-pr-4">Security</td><td class="tw-py-2">{{ propertiesData.content_security || '-' }}</td></tr>
@@ -717,7 +717,7 @@
         <q-card-section :class="`bg-${domain()}`">
           <div class="tw-flex tw-items-center tw-justify-between">
             <div class="text-h6 tw-text-white tw-font-bold tw-flex tw-items-center tw-gap-3">
-              <q-icon name="lock" size="28px" /> Manage Permission — {{ permissionFileName }}
+              <q-icon name="lock" size="28px" /> Manage Permission File — {{ permissionFileName }}
             </div>
             <q-btn flat round dense icon="close" color="white" v-close-popup />
           </div>
@@ -741,8 +741,12 @@
               <template v-slot:body-cell-no="props"><q-td :props="props" class="tw-text-center tw-text-sm">{{ props.rowIndex + 1 }}</q-td></template>
               <template v-slot:body-cell-nik="props"><q-td :props="props" class="tw-text-sm">{{ props.row.aksesfile_nik || '-' }}</q-td></template>
               <template v-slot:body-cell-nama="props"><q-td :props="props" class="tw-text-sm">{{ props.row.user_name || '-' }}</q-td></template>
-              <template v-slot:body-cell-bu="props"><q-td :props="props" class="tw-text-sm">{{ props.row.aksesfile_bu || '-' }}</q-td></template>
-              <template v-slot:body-cell-div="props"><q-td :props="props" class="tw-text-sm">{{ props.row.aksesfile_div || '-' }}</q-td></template>
+              <template v-slot:body-cell-bu="props">
+                <q-td :props="props" class="tw-text-sm">
+                  {{ props.row.aksesfile_bu === 'all' ? 'Semua Bisnis Unit' : (props.row.aksesfile_bu || '-') }}
+                </q-td>
+              </template>
+              <template v-slot:body-cell-div="props"><q-td :props="props" class="tw-text-sm">{{ props.row.div_nama || props.row.aksesfile_div || '-' }}</q-td></template>
               <template v-slot:body-cell-view="props">
                 <q-td :props="props" class="tw-text-center">
                   <q-icon :name="props.row.aksesfile_view ? 'check_circle' : 'cancel'" :color="props.row.aksesfile_view ? 'green' : 'red-4'" size="20px" />
@@ -796,7 +800,7 @@
 
                   <!-- Mapping Business Unit (readonly) -->
                   <div>
-                    <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Mapping Business Unit" readonly>
+                    <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Mapping Bisnis Unit" readonly>
                       <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
                     </q-input>
                   </div>
@@ -804,24 +808,45 @@
                   <!-- Jenis Mapping -->
                   <div>
                     <q-select v-model="newPermType" outlined dense label="Jenis Mapping"
-                      :options="[{label:'Business Unit', value:'bu'}, {label:'Divisi', value:'div'}, {label:'User', value:'user'}]" emit-value map-options>
+                      :options="[{label:'Bisnis Unit', value:'bu'}, {label:'Divisi', value:'div'}, {label:'User', value:'user'}]" emit-value map-options>
                       <template v-slot:prepend><q-icon name="category" color="blue-6" /></template>
                     </q-select>
                   </div>
 
                   <!-- Business Unit -->
-                  <div v-if="newPermType === 'bu' || newPermType === 'div'">
-                    <q-select v-model="newPermBU" outlined dense label="Business Unit"
-                      :options="[...buOptions, {label:'All Business Unit', value:'all'}]" emit-value map-options>
+                  <div v-if="newPermType === 'bu' || newPermType === 'div'" :class="{ 'md:tw-col-span-2': newPermType === 'bu' }">
+                    <q-select v-model="newPermBU" outlined dense label="Bisnis Unit"
+                      :options="[...buOptions, {label:'Semua Bisnis Unit', value:'all', bu_id:'ALL', bu_name:'Semua Bisnis Unit'}]" emit-value map-options>
                       <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
+                      <template v-slot:option="scope">
+                        <q-item v-bind="scope.itemProps">
+                          <q-item-section>
+                            <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                            <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                      <template v-slot:selected-item="scope">
+                        <div class="tw-flex tw-flex-col tw-leading-tight">
+                          <span>{{ scope.opt.bu_id }}</span>
+                          <!-- <span class="tw-text-xs tw-text-grey-6">{{ scope.opt.bu_name }}</span> -->
+                        </div>
+                      </template>
                     </q-select>
                   </div>
 
                   <!-- Divisi -->
                   <div v-if="newPermType === 'div'">
-                    <q-input v-model="newPermDiv" outlined dense label="Divisi" placeholder="Nama divisi">
+                    <q-select v-model="newPermDiv" outlined dense label="Divisi"
+                      :options="permDivOptions" emit-value map-options
+                      :disable="!newPermBU || newPermBU === 'all'"
+                      :loading="loadingPermDiv"
+                      :placeholder="newPermBU === 'all' ? '-' : 'Pilih divisi'">
                       <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
-                    </q-input>
+                      <template v-slot:no-option>
+                        <q-item><q-item-section class="text-grey">Tidak ada divisi</q-item-section></q-item>
+                      </template>
+                    </q-select>
                   </div>
 
                   <!-- User -->
@@ -846,10 +871,10 @@
                   <div class="md:tw-col-span-2">
                     <div class="tw-text-xs tw-font-semibold tw-text-slate-600 tw-mb-2">Permission Flags</div>
                     <div class="tw-flex tw-gap-6">
-                      <q-toggle v-model="newPermView" label="View" color="green" />
-                      <q-toggle v-model="newPermDownload" label="Download" color="blue-6" />
-                      <q-toggle v-model="newPermDelete" label="Delete" color="red-6" />
-                      <q-toggle v-model="newPermUpload" label="Edit" color="orange-7" />
+                      <q-toggle v-model="newPermView" label="View" color="green-6" />
+                      <q-toggle v-model="newPermDownload" label="Download" color="green-6" />
+                      <q-toggle v-model="newPermDelete" label="Delete" color="green-6" />
+                      <q-toggle v-model="newPermUpload" label="Edit" color="green-6" />
                     </div>
                   </div>
 
@@ -894,11 +919,11 @@
               <template v-slot:body-cell-nik="props"><q-td :props="props" class="tw-text-sm">{{ props.row.aksesfolder_nik || '-' }}</q-td></template>
               <template v-slot:body-cell-bu="props">
                 <q-td :props="props" class="tw-text-sm">
-                  {{ props.row.aksesfolder_bu === 'all' ? 'All Business Unit' : (props.row.aksesfolder_bu || '-') }}
+                  {{ props.row.aksesfolder_bu === 'all' ? 'Semua Bisnis Unit' : (props.row.aksesfolder_bu || '-') }}
                 </q-td>
               </template>
               <template v-slot:body-cell-nama="props"><q-td :props="props" class="tw-text-sm">{{ props.row.user_name || '-' }}</q-td></template>
-              <template v-slot:body-cell-div="props"><q-td :props="props" class="tw-text-sm">{{ props.row.aksesfolder_div || '-' }}</q-td></template>
+              <template v-slot:body-cell-div="props"><q-td :props="props" class="tw-text-sm">{{ props.row.div_nama || props.row.aksesfolder_div || '-' }}</q-td></template>
               <template v-slot:body-cell-download="props">
                 <q-td :props="props" class="tw-text-center">
                   <q-icon :name="props.row.aksesfolder_download ? 'check_circle' : 'cancel'" :color="props.row.aksesfolder_download ? 'green' : 'red-4'" size="20px" />
@@ -947,7 +972,7 @@
 
                   <!-- Mapping Business Unit (readonly) -->
                   <div>
-                    <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Mapping Business Unit" readonly>
+                    <q-input :model-value="selectedFolderNode ? selectedFolderNode.folder_bu : ''" outlined dense label="Mapping Bisnis Unit" readonly>
                       <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
                     </q-input>
                   </div>
@@ -955,16 +980,30 @@
                   <!-- Jenis Mapping -->
                   <div>
                     <q-select v-model="newPermFolderType" outlined dense label="Jenis Mapping"
-                      :options="[{label:'User', value:'user'}, {label:'Business Unit', value:'bu'}, {label:'Divisi', value:'div'}]" emit-value map-options>
+                      :options="[{label:'User', value:'user'}, {label:'Bisnis Unit', value:'bu'}, {label:'Divisi', value:'div'}]" emit-value map-options>
                       <template v-slot:prepend><q-icon name="category" color="blue-6" /></template>
                     </q-select>
                   </div>
 
                   <!-- Business Unit -->
-                  <div v-if="newPermFolderType === 'bu' || newPermFolderType === 'div'">
-                    <q-select v-model="newPermFolderBU" outlined dense label="Business Unit"
-                      :options="[...buOptions, {label:'All Business Unit', value:'all'}]" emit-value map-options>
+                  <div v-if="newPermFolderType === 'bu' || newPermFolderType === 'div'" :class="{ 'md:tw-col-span-2': newPermFolderType === 'bu' }">
+                    <q-select v-model="newPermFolderBU" outlined dense label="Bisnis Unit"
+                      :options="[...buOptions, {label:'Semua Bisnis Unit', value:'all', bu_id:'ALL', bu_name:'Semua Bisnis Unit'}]" emit-value map-options>
                       <template v-slot:prepend><q-icon name="business" color="orange-7" /></template>
+                      <template v-slot:option="scope">
+                        <q-item v-bind="scope.itemProps">
+                          <q-item-section>
+                            <q-item-label>{{ scope.opt.bu_id }}</q-item-label>
+                            <q-item-label caption>{{ scope.opt.bu_name }}</q-item-label>
+                          </q-item-section>
+                        </q-item>
+                      </template>
+                      <template v-slot:selected-item="scope">
+                        <div class="tw-flex tw-flex-col tw-leading-tight">
+                          <span>{{ scope.opt.bu_id }}</span>
+                          <!-- <span class="tw-text-xs tw-text-grey-6">{{ scope.opt.bu_name }}</span> -->
+                        </div>
+                      </template>
                     </q-select>
                   </div>
 
@@ -976,7 +1015,7 @@
                       placeholder="Pilih Divisi">
                       <template v-slot:prepend><q-icon name="account_tree" color="purple-6" /></template>
                       <template v-slot:no-option>
-                        <q-item><q-item-section class="text-grey">{{ newPermFolderBU ? 'Tidak ada divisi' : 'Pilih Business Unit terlebih dahulu' }}</q-item-section></q-item>
+                        <q-item><q-item-section class="text-grey">{{ newPermFolderBU ? 'Tidak ada divisi' : 'Pilih Bisnis Unit terlebih dahulu' }}</q-item-section></q-item>
                       </template>
                     </q-select>
                   </div>
@@ -1003,9 +1042,9 @@
                   <div class="md:tw-col-span-2">
                     <div class="tw-text-xs tw-font-semibold tw-text-slate-600 tw-mb-2">Permission Flags</div>
                     <div class="tw-flex tw-gap-6">
-                      <q-toggle v-model="newPermFolderDownload" label="View" color="teal" />
-                      <q-toggle v-model="newPermFolderUpload" label="Upload" color="blue-6" />
-                      <q-toggle v-model="newPermFolderDelete" label="Manage" color="red-6" />
+                      <q-toggle v-model="newPermFolderDownload" label="View" color="green-6" />
+                      <q-toggle v-model="newPermFolderUpload" label="Upload" color="green-6" />
+                      <q-toggle v-model="newPermFolderDelete" label="Manage" color="green-6" />
                     </div>
                   </div>
 
@@ -1103,9 +1142,9 @@ const divOptions = ref([]);
 
 // Options
 const securityBUOptions = [
-  { label: "Business Unit Tertentu", value: "restricted" },
+  { label: "Bisnis Unit Tertentu", value: "restricted" },
   // { label: "Semua Business Unit", value: "public" },
-  { label: "Semua Business Unit", value: "non-restricted" },
+  { label: "Semua Bisnis Unit", value: "non-restricted" },
 ];
 const securityDivOptions = [
   { label: "Divisi Tertentu", value: "restricted" },
@@ -1117,7 +1156,7 @@ const buOptions = ref([]);
 const loadBuOptions = async () => {
   try {
     const res = await axios.get(`${import.meta.env.VITE_API}user-management/business-units`);
-    buOptions.value = (res.data || []).map(b => ({ label: b.bu_name, value: b.bu_id }));
+    buOptions.value = (res.data || []).map(b => ({ label: b.bu_name, value: b.bu_id, bu_id: b.bu_id, bu_name: b.bu_name }));
   } catch {
     buOptions.value = [];
   }
@@ -1141,9 +1180,9 @@ const fileColumns = [
 // Permission file table columns (like legacy: No, NIK, Nama, BU, Divisi, View, Download, Delete, Upload, Aksi)
 const permFileColumns = [
   { name: "no", label: "No", field: "no", align: "center", sortable: false, style: "width: 40px" },
-  { name: "nik", label: "NIK", field: "aksesfile_nik", align: "left", sortable: true },
+  { name: "nik", label: "NIK", field: "aksesfile_nik", align: "left", sortable: true, style: "width: 150px" },
   { name: "nama", label: "Nama", field: "user_name", align: "left", sortable: true },
-  { name: "bu", label: "Business Unit", field: "aksesfile_bu", align: "left", sortable: true },
+  { name: "bu", label: "Bisnis Unit", field: "aksesfile_bu", align: "left", sortable: true },
   { name: "div", label: "Divisi", field: "aksesfile_div", align: "left", sortable: true },
   { name: "view", label: "View", field: "aksesfile_view", align: "center", sortable: false, style: "width: 60px" },
   { name: "download", label: "Download", field: "aksesfile_download", align: "center", sortable: false, style: "width: 70px" },
@@ -1155,9 +1194,9 @@ const permFileColumns = [
 // Permission folder table columns
 const permFolderColumns = [
   { name: "no", label: "No", field: "no", align: "center", sortable: false, style: "width: 40px" },
-  { name: "nik", label: "Username", field: "aksesfolder_nik", align: "left", sortable: true },
+  { name: "nik", label: "NIK", field: "aksesfolder_nik", align: "left", sortable: true, style: "width: 150px" },
   { name: "nama", label: "Nama", field: "user_name", align: "left", sortable: true },
-  { name: "bu", label: "Business Unit", field: "aksesfolder_bu", align: "left", sortable: true },
+  { name: "bu", label: "Bisnis Unit", field: "aksesfolder_bu", align: "left", sortable: true },
   { name: "div", label: "Divisi", field: "aksesfolder_div", align: "left", sortable: true },
   { name: "download", label: "View", field: "aksesfolder_download", align: "center", sortable: false, style: "width: 70px" },
   { name: "upload", label: "Upload", field: "aksesfolder_upload", align: "center", sortable: false, style: "width: 60px" },
@@ -1666,7 +1705,7 @@ const permFolderDivOptions = ref([]);
 
 const loadPermFolderDivisions = async (bu) => {
   if (!bu || bu === 'all') {
-    permFolderDivOptions.value = [{ label: 'All Division', value: 'all' }];
+    permFolderDivOptions.value = [{ label: 'Semua Divisi', value: 'all' }];
     return;
   }
   try {
@@ -1674,11 +1713,11 @@ const loadPermFolderDivisions = async (bu) => {
     const data = res.data || [];
     const divs = data.map(d => ({ label: d.div_nama, value: d.div_id || d.div_nama }));
     // Add "All Division" at the bottom
-    divs.push({ label: 'All Division', value: 'all' });
+    divs.push({ label: 'Semua Divisi', value: 'all' });
     permFolderDivOptions.value = divs;
   } catch (err) {
     console.log('loadPermFolderDivisions error:', err?.response?.data || err.message);
-    permFolderDivOptions.value = [{ label: 'All Division', value: 'all' }];
+    permFolderDivOptions.value = [{ label: 'Semua Divisi', value: 'all' }];
   }
 };
 
@@ -1761,7 +1800,7 @@ const editPermFolderEntry = (row) => {
     message: `<div style="font-size:13px; margin-bottom:12px;">
       <div><b>Nama Folder :</b> ${permFolderName.value}</div>
       <div><b>Path Folder :</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
-      <div><b>Mapping Business Unit :</b> ${folderBU === 'all' ? 'All Business Unit' : (folderBU || '-')}</div>
+      <div><b>Mapping Bisnis Unit :</b> ${folderBU === 'all' ? 'Semua Bisnis Unit' : (folderBU || '-')}</div>
     </div>
     <div>Update permission flags :</div>`,
     html: true,
@@ -1865,6 +1904,41 @@ const newPermUser = ref(null);
 const newPermType = ref("user");
 const newPermBU = ref(null);
 const newPermDiv = ref("");
+const permDivOptions = ref([]);
+const loadingPermDiv = ref(false);
+
+// Load divisions for the selected BU (backend: GET /general/division?bu=<bu_id>)
+const loadPermDivisions = async (bu) => {
+  console.log(bu);
+  if (!bu) {
+    permDivOptions.value = [];
+    return;
+  }
+  loadingPermDiv.value = true;
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API}general/division`, { params: { bu } });
+    permDivOptions.value = (res.data || []).map(d => ({
+      label: d.div_nama,
+      value: d.div_id,
+    }));
+  } catch {
+    permDivOptions.value = [];
+  } finally {
+    loadingPermDiv.value = false;
+  }
+};
+
+// When BU changes: 'all' -> force div to '-', otherwise load divisions and reset selection
+watch(newPermBU, (bu) => {
+  if (bu === 'all') {
+    permDivOptions.value = [];
+    newPermDiv.value = "-";
+    return;
+  }
+  newPermDiv.value = "";
+  loadPermDivisions(bu);
+});
+
 const newPermView = ref(true);
 const newPermDownload = ref(true);
 const newPermDelete = ref(false);
@@ -1892,7 +1966,7 @@ const addPermissionEntry = async () => {
     return;
   }
   if (newPermType.value === 'bu' && !newPermBU.value) {
-    $q.notify({ type: "warning", message: "Pilih Business Unit terlebih dahulu", position: "bottom" });
+    $q.notify({ type: "warning", message: "Pilih Bisnis Unit terlebih dahulu", position: "bottom" });
     return;
   }
   if (newPermType.value === 'div' && (!newPermBU.value || !newPermDiv.value)) {
@@ -1917,6 +1991,7 @@ const addPermissionEntry = async () => {
     newPermUser.value = null;
     newPermBU.value = null;
     newPermDiv.value = "";
+    permDivOptions.value = [];
     // Reload permission list
     const res = await axios.get(`${import.meta.env.VITE_API}document/permission/file/${permissionFileId.value}`);
     permissionFileList.value = res.data || [];
@@ -1964,7 +2039,7 @@ const editPermFileEntry = (row) => {
     message: `<div style="font-size:13px; margin-bottom:12px;">
       <div><b>Nama File :</b> ${permissionFileName.value}</div>
       <div><b>Path Folder :</b> ${selectedFolderNode.value ? selectedFolderNode.value.folder_name : '/'}</div>
-      <div><b>Mapping Business Unit :</b> ${folderBU || '-'}</div>
+      <div><b>Mapping Bisnis Unit :</b> ${folderBU || '-'}</div>
     </div>
     <div>Update permission flags :</div>`,
     html: true,
