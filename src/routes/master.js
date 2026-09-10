@@ -78,18 +78,18 @@ export default [
       //   path: "document/search",
       //   component: () => import("./../pages/Document/Search.vue"),
       // },
-      // {
-      //   path: "rekaptemplate",
-      //   component: () => import("./../pages/Document/RekapTemplate.vue"),
-      // },
+      {
+        path: "rekaptemplate",
+        component: () => import("./../pages/Document/RekapTemplate.vue"),
+      },
       // {
       //   path: "document/report-renewable",
       //   component: () => import("./../pages/Document/ReportRenewable.vue"),
       // },
-      // {
-      //   path: "logactivity",
-      //   component: () => import("./../pages/Document/LogActivity.vue"),
-      // },
+      {
+        path: "logactivity",
+        component: () => import("./../pages/Document/LogActivity.vue"),
+      },
       // {
       //   path: "document/target",
       //   component: () => import("./../pages/Document/TargetManagement.vue"),
