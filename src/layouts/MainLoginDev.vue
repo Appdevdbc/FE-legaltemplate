@@ -145,23 +145,6 @@ const schema = yup.object({
     password: yup.string().required().label("Password"),
 });
 
-const cekEnvironment = async () => {
-    try {
-        if(app_env() == 'PROD' || app_env() == 'PRODUCTION' || app_env() == 'LIVE'){
-            $q.notify({
-                type: "negative",
-                message: "Link tidak ada",
-            });        
-            window.location.replace(app_link_portal());
-        }
-        else{
-            router.push("/");
-        }
-    } catch (error) {
-        console.log('error');
-    } 
-}
-
 const onSubmit = async (values, actions) => {
     try {
         Loading.show();
@@ -190,7 +173,6 @@ const onSubmit = async (values, actions) => {
     }
 }
 
-cekEnvironment();
 window.localStorage.clear();
 </script>
 

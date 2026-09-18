@@ -1068,7 +1068,7 @@ import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import dayjs from "dayjs";
-import { domain, formatDateTime2 } from "./../../utils";
+import { domain, empid, formatDateTime2 } from "./../../utils";
 
 const $q = useQuasar();
 const router = useRouter();
@@ -1289,6 +1289,7 @@ const submitAddFile = async () => {
     formData.append("bu", selectedFolderNode.value?.folder_bu || "");
     formData.append("div", selectedFolderNode.value?.folder_div || "");
     formData.append("folder_id", selectedFolderId.value);
+    formData.append("encryptedCreator", empid());
 
     await axios.post(`${import.meta.env.VITE_API}document/file`, formData, { headers: { "Content-Type": "multipart/form-data" } });
     $q.notify({ type: "positive", message: "File berhasil diupload", position: "bottom" });
