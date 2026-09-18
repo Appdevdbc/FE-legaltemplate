@@ -123,6 +123,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useQuasar, Loading, QSpinnerCube } from "quasar";
 import { useBrowserLocation } from '@vueuse/core'
 import { ParseError, app_name, app_year, app_env, app_link_portal } from "./../utils.js";
+import Cookies from 'js-cookie';
 
 const $q = useQuasar();
 const router = useRouter();
