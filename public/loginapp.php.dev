@@ -1,0 +1,3 @@
+<?php
+	header("location: http://app-legaltemplatenew-dev.dbc.co.id/#/login_portal");
+?>
