@@ -13,11 +13,11 @@ const router = createRouter({
         },
         {
             path: "/login_portal",
-            component: () => import("./layouts/MainLoginPortal.vue"),
+            component: () => import("./../layouts/MainLoginPortal.vue"),
             },
         {
             path: "/login_admin_dbc2026",
-            component: () => import("./layouts/MainLoginDev.vue"),
+            component: () => import("./../layouts/MainLoginDev.vue"),
         },
         {
             path: "/404",
