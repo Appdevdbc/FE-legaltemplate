@@ -71,10 +71,10 @@
             </q-td>
           </template>
         
-          <template v-slot:body-cell-employee_stat="props">
+          <template v-slot:body-cell-account_status="props">
               <q-td :props="props">
-                  <q-badge v-if="props.value == 'ACTIVE'" color="green-6" class="q-py-xs" label="Aktif" />
-                  <q-badge v-if="props.value == 'INACTIVE'" color="red-8" class="q-py-xs" label="Tidak Aktif" />
+                  <q-badge v-if="props.value == 1" color="green-6" class="q-py-xs" label="Aktif" />
+                  <q-badge v-if="props.value == 0" color="red-8" class="q-py-xs" label="Tidak Aktif" />
               </q-td>
           </template>
 
@@ -351,6 +351,20 @@
             </q-input>
             </div>
 
+            <!-- Divisi (readonly) -->
+            <div class="col-12">
+            <q-input
+              v-model="editForm.divisi"
+              outlined
+              dense
+              label="Divisi"
+              readonly
+              class="tw-bg-gray-50"
+            >
+              <template v-slot:prepend><q-icon name="apartment" color="blue-6" /></template>
+            </q-input>
+            </div>
+
             <!-- Email -->
             <div class="col-12">
             <q-input
@@ -506,11 +520,11 @@ const columns = [
   { name: "account_name", label: "Nama", field: "account_name", align: "left", sortable: true },
   // { name: "account_bu_name", label: "Business Unit", field: "account_bu_name", align: "left", sortable: true },
   { name: "account_bu", label: "Bisnis Unit", field: "account_bu", align: "left", sortable: true },
-  { name: "account_div", label: "Divisi", field: "account_div", align: "left", sortable: true },
+  { name: "div_nama", label: "Divisi", field: "div_nama", align: "left", sortable: true },
   { name: "role_name", label: "Role", field: "role_name", align: "left", sortable: true },
   { name: "account_email", label: "Email", field: "account_email", align: "left", sortable: true },
   { name: "account_contact", label: "Kontak", field: "account_contact", align: "left", sortable: true },
-  { name: "employee_stat", label: "Status", field: "employee_stat", align: "left", sortable: true },
+  { name: "account_status", label: "Status", field: "account_status", align: "left", sortable: true },
   { name: "aksi", label: "Aksi", field: "aksi", align: "center", sortable: false },
 ];
 
@@ -733,6 +747,7 @@ const openEditDialog = (row) => {
     role: parseInt(row.account_type),
     bu: isMultipleBU ? null : buValue,
     buMultiple: isMultipleBU ? buValue.split(",").map((b) => b.trim()).filter(Boolean) : [],
+    divisi: row.div_nama || "",
     email: row.account_email || "",
     contact: row.account_contact || "",
     currentRoleName: row.role_name || "",
