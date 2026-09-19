@@ -402,12 +402,11 @@ const menuType = ref(false); /*false untuk sidemenu & true untuk topmenu*/
 const listDomain = ref([]);
 const domainSearchQuery = ref('');
 const Domain = ref(domain());
-// const Domain = ref('120');
 const pattern = `${domain()} - `;
 const Unit = ref(unit().startsWith(pattern) ? unit().substring(pattern.length) : unit());
 const Nama = ref(nama() || "User");
-const Header= ref(false);
-const Footer= ref(false);
+const Header = ref(false);
+const Footer = ref(false);
 const timeout = ref(idleTime());
 const location = useBrowserLocation();
 const Color = ref();
@@ -544,8 +543,6 @@ const profileBackgroundStyle = computed(() => {
   }
   return {};
 });
-
-
 
 const handleProfileBackgroundUpload = async (event) => {
   const file = event.target.files[0];
@@ -691,7 +688,7 @@ const setDomain = async (value) => {
 };
 
 const setHeaderFooter = () => {
-  if (Domain.value == '100'||Domain.value == '110'){
+  if (Domain.value == '100' || Domain.value == '110'){
     // Header.value='tw-bg-[#003399]'
     Header.value=`tw-bg-[url('/bg/wdjr.svg')] tw-h-24`
     Footer.value='tw-bg-gradient-to-r tw-from-[#00b2e3] tw-to-[#231F20]'
@@ -703,7 +700,7 @@ const setHeaderFooter = () => {
     //Header.value='tw-bg-[#ee4034]'
     Header.value=`tw-bg-[url('/bg/dbc.svg')] tw-h-24`
     Footer.value='tw-bg-gradient-to-r tw-from-[#BABCBE] tw-to-[#231F20]'
-  }else if (Domain.value == '300'){
+  }else if (Domain.value == '300' || Domain.value == '320'){
     // Header.value='tw-bg-[#A8479A]'
     Header.value=`tw-bg-[url('/bg/rbg.svg')] tw-h-24`
     Footer.value='tw-bg-gradient-to-r tw-from-[#5BAF42] tw-to-[#231F20]'

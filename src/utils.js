@@ -78,145 +78,24 @@ export const terbilang = (angka) => {
   }
 }
 
-export const nik = () => {
-  // let data = JSON.parse(window.localStorage.getItem("data"));
-  // return data.data.nik;
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.nik || '';
-        } catch (e) {
-            return '';
-        }
-    }
+const getSession = (key) => {
+  try {
+    const session = localStorage.getItem("session");
+    if (!session) return '';
+
+    return JSON.parse(decryptMessage(session))?.[key] || '';
+  } catch {
     return '';
-};
+  }
+}
 
-export const empid = () => {
-  // let data = JSON.parse(window.localStorage.getItem("data"));
-  // //console.log(data);
-  // if (data){
-  //   return data.data.empid;
-  // }else
-  // return window.localStorage.getItem("empid"); 
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.empid || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const nama = () => {
-  // return window.localStorage.getItem("nama");
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.nama || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const role = () => {
-  // return window.localStorage.getItem("role");
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.role || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const admin = () => {
-  return window.localStorage.getItem("super");
-};
-
-export const domain = () => {
-  // return window.localStorage.getItem("domain");
-  // return '210';
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.domain || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const site= () => {
-  return window.localStorage.getItem("site");
-};
-
-export const ListSite = () => {
-  return window.localStorage.getItem("ListSite");
-};
-
-export const idleTime = () => {
-  // return window.localStorage.getItem("idle_time");
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.idle || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const unit = () => {
-  // return window.localStorage.getItem("unit");
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.unit || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
-
-export const token = () => {
-  // let data = JSON.parse(window.localStorage.getItem("data"));
-  // return data.data.token;
-    const session = window.localStorage.getItem("session");
-    if (session) {
-        try {
-            const decrypted = decryptMessage(session);
-            const parsed = JSON.parse(decrypted);
-            return parsed.token || '';
-        } catch (e) {
-            return '';
-        }
-    }
-    return '';
-};
+export const nik = () => getSession('nik');
+export const empid = () => getSession('empid');
+export const nama = () => getSession('nama');
+export const role = () => getSession('role');
+export const domain = () => getSession('domain');
+export const unit = () => getSession('unit');
+export const idleTime = () => getSession('idle');
 
 export const ParseError = (error) => {
   if (error.response) {  
