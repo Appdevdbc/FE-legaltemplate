@@ -94,8 +94,10 @@ export const empid = () => getSession('empid');
 export const nama = () => getSession('nama');
 export const role = () => getSession('role');
 export const domain = () => getSession('domain');
+export const site = () => getSession('site');
 export const unit = () => getSession('unit');
 export const idleTime = () => getSession('idle');
+export const admin = () => getSession('super');
 
 export const ParseError = (error) => {
   if (error.response) {  
